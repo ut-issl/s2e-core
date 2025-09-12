@@ -14,9 +14,9 @@ namespace s2e::components {
 // Constructor
 SimpleThruster::SimpleThruster(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id,
                                const math::Vector<3> thruster_position_b_m, const math::Vector<3> thrust_direction_b, const double max_magnitude_N,
-                               const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad,
-                               const double dead_time_s, const double time_constant_s, const double step_width_s,
-                               const spacecraft::Structure* structure, const dynamics::Dynamics* dynamics)
+                               const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad, const double dead_time_s,
+                               const double time_constant_s, const double step_width_s, const spacecraft::Structure* structure,
+                               const dynamics::Dynamics* dynamics)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       thruster_position_b_m_(thruster_position_b_m),
@@ -34,9 +34,9 @@ SimpleThruster::SimpleThruster(const int prescaler, environment::ClockGenerator*
 
 SimpleThruster::SimpleThruster(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                                const math::Vector<3> thruster_position_b_m, const math::Vector<3> thrust_direction_b, const double max_magnitude_N,
-                               const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad,
-                               const double dead_time_s, const double time_constant_s, const double step_width_s,
-                               const spacecraft::Structure* structure, const dynamics::Dynamics* dynamics)
+                               const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad, const double dead_time_s,
+                               const double time_constant_s, const double step_width_s, const spacecraft::Structure* structure,
+                               const dynamics::Dynamics* dynamics)
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
       thruster_position_b_m_(thruster_position_b_m),
@@ -115,10 +115,10 @@ double SimpleThruster::CalcThrustMagnitude() {
   double delayed_duty = duty_delay_buffer_.front();
   duty_delay_buffer_.push_back(duty_);
   duty_delay_buffer_.erase(duty_delay_buffer_.begin());
-  
+
   // Apply first-order lag
   delayed_duty = delayed_duty_.Update(delayed_duty);
-  
+
   return delayed_duty * thrust_magnitude_max_N_;
 }
 

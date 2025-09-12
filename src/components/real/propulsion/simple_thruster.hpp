@@ -43,9 +43,8 @@ class SimpleThruster : public Component, public logger::ILoggable {
    */
   SimpleThruster(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id,
                  const math::Vector<3> thruster_position_b_m, const math::Vector<3> thrust_direction_b, const double max_magnitude_N,
-                 const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad,
-                 const double dead_time_s, const double time_constant_s, const double step_width_s,
-                 const spacecraft::Structure* structure, const dynamics::Dynamics* dynamics);
+                 const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad, const double dead_time_s,
+                 const double time_constant_s, const double step_width_s, const spacecraft::Structure* structure, const dynamics::Dynamics* dynamics);
   /**
    * @fn SimpleThruster
    * @brief Constructor with power port
@@ -66,9 +65,8 @@ class SimpleThruster : public Component, public logger::ILoggable {
    */
   SimpleThruster(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                  const math::Vector<3> thruster_position_b_m, const math::Vector<3> thrust_direction_b, const double max_magnitude_N,
-                 const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad,
-                 const double dead_time_s, const double time_constant_s, const double step_width_s,
-                 const spacecraft::Structure* structure, const dynamics::Dynamics* dynamics);
+                 const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad, const double dead_time_s,
+                 const double time_constant_s, const double step_width_s, const spacecraft::Structure* structure, const dynamics::Dynamics* dynamics);
   /**
    * @fn ~SimpleThruster
    * @brief Destructor
@@ -129,10 +127,10 @@ class SimpleThruster : public Component, public logger::ILoggable {
   randomization::NormalRand magnitude_random_noise_;     //!< Normal random for thrust magnitude error
   randomization::NormalRand direction_random_noise_;     //!< Normal random for thrust direction error
   // Delay parameters
-  const double dead_time_s_;                             //!< Dead time [s]
-  const double step_width_s_;                            //!< Step width for simulation [s]
-  std::vector<double> duty_delay_buffer_;                //!< Circular buffer for dead time delay
-  control_utilities::FirstOrderLag delayed_duty_;        //!< First order lag for duty
+  const double dead_time_s_;                       //!< Dead time [s]
+  const double step_width_s_;                      //!< Step width for simulation [s]
+  std::vector<double> duty_delay_buffer_;          //!< Circular buffer for dead time delay
+  control_utilities::FirstOrderLag delayed_duty_;  //!< First order lag for duty
   // outputs
   math::Vector<3> output_thrust_b_N_{0.0};   //!< Generated thrust on the body fixed frame [N]
   math::Vector<3> output_torque_b_Nm_{0.0};  //!< Generated torque on the body fixed frame [Nm]
