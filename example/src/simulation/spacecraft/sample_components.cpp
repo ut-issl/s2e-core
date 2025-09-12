@@ -150,7 +150,7 @@ SampleComponents::SampleComponents(const dynamics::Dynamics* dynamics, spacecraf
   // magnetorquer_->SetOutputMagneticMoment_c_Am2(mag_moment_c);
   // reaction_wheel_->SetTargetTorque_rw_Nm(0.01);
   // reaction_wheel_->SetDriveFlag(true);
-  thruster_->SetDuty(0.9);
+  // thruster_->SetDuty(0.9);
 
   // force generator debug output
   // math::Vector<3> force_N;
