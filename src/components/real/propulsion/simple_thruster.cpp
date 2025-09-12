@@ -15,6 +15,7 @@ namespace s2e::components {
 SimpleThruster::SimpleThruster(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id,
                                const math::Vector<3> thruster_position_b_m, const math::Vector<3> thrust_direction_b, const double max_magnitude_N,
                                const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad,
+                               const double dead_time_s, const double time_constant_s, const double step_width_s,
                                const spacecraft::Structure* structure, const dynamics::Dynamics* dynamics)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
@@ -22,14 +23,19 @@ SimpleThruster::SimpleThruster(const int prescaler, environment::ClockGenerator*
       thrust_direction_b_(thrust_direction_b),
       thrust_magnitude_max_N_(max_magnitude_N),
       direction_noise_standard_deviation_rad_(direction_standard_deviation_rad),
+      dead_time_s_(dead_time_s),
+      step_width_s_(step_width_s),
+      delayed_duty_(step_width_s, time_constant_s),
       structure_(structure),
       dynamics_(dynamics) {
   Initialize(magnitude_standard_deviation_N, direction_standard_deviation_rad);
+  InitializeDelay();
 }
 
 SimpleThruster::SimpleThruster(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                                const math::Vector<3> thruster_position_b_m, const math::Vector<3> thrust_direction_b, const double max_magnitude_N,
                                const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad,
+                               const double dead_time_s, const double time_constant_s, const double step_width_s,
                                const spacecraft::Structure* structure, const dynamics::Dynamics* dynamics)
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
@@ -37,9 +43,13 @@ SimpleThruster::SimpleThruster(const int prescaler, environment::ClockGenerator*
       thrust_direction_b_(thrust_direction_b),
       thrust_magnitude_max_N_(max_magnitude_N),
       direction_noise_standard_deviation_rad_(direction_standard_deviation_rad),
+      dead_time_s_(dead_time_s),
+      step_width_s_(step_width_s),
+      delayed_duty_(step_width_s, time_constant_s),
       structure_(structure),
       dynamics_(dynamics) {
   Initialize(magnitude_standard_deviation_N, direction_standard_deviation_rad);
+  InitializeDelay();
 }
 
 SimpleThruster::~SimpleThruster() {}
@@ -48,6 +58,11 @@ void SimpleThruster::Initialize(const double magnitude_standard_deviation_N, con
   magnitude_random_noise_.SetParameters(0.0, magnitude_standard_deviation_N);
   direction_random_noise_.SetParameters(0.0, direction_standard_deviation_rad);
   thrust_direction_b_ = thrust_direction_b_.CalcNormalizedVector();
+}
+
+void SimpleThruster::InitializeDelay() {
+  size_t len_buffer = (size_t)floor(dead_time_s_ / step_width_s_) + 1;
+  duty_delay_buffer_.assign(len_buffer, 0.0);
 }
 
 void SimpleThruster::MainRoutine(const int time_count) {
@@ -95,7 +110,17 @@ std::string SimpleThruster::GetLogValue() const {
   return str_tmp;
 }
 
-double SimpleThruster::CalcThrustMagnitude() { return duty_ * thrust_magnitude_max_N_; }
+double SimpleThruster::CalcThrustMagnitude() {
+  // Get delayed duty from dead time buffer
+  double delayed_duty = duty_delay_buffer_.front();
+  duty_delay_buffer_.push_back(duty_);
+  duty_delay_buffer_.erase(duty_delay_buffer_.begin());
+  
+  // Apply first-order lag
+  delayed_duty = delayed_duty_.Update(delayed_duty);
+  
+  return delayed_duty * thrust_magnitude_max_N_;
+}
 
 math::Vector<3> SimpleThruster::CalcThrustDirection() {
   math::Vector<3> thrust_dir_b_true = thrust_direction_b_;
@@ -145,8 +170,13 @@ SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, 
   double deg_err;
   deg_err = thruster_conf.ReadDouble(Section, "direction_error_standard_deviation_deg") * math::pi / 180.0;
 
+  // Read delay parameters
+  double dead_time_s = thruster_conf.ReadDouble(Section, "dead_time_s");
+  double time_constant_s = thruster_conf.ReadDouble(Section, "time_constant_s");
+  double step_width_s = thruster_conf.ReadDouble(Section, "step_width_s");
+
   SimpleThruster thruster(prescaler, clock_generator, thruster_id, thruster_pos, thruster_dir, max_magnitude_N, magnitude_standard_deviation_N,
-                          deg_err, structure, dynamics);
+                          deg_err, dead_time_s, time_constant_s, step_width_s, structure, dynamics);
   return thruster;
 }
 
@@ -173,10 +203,15 @@ SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, 
   double deg_err;
   deg_err = thruster_conf.ReadDouble(Section, "direction_error_standard_deviation_deg") * math::pi / 180.0;
 
+  // Read delay parameters
+  double dead_time_s = thruster_conf.ReadDouble(Section, "dead_time_s");
+  double time_constant_s = thruster_conf.ReadDouble(Section, "time_constant_s");
+  double step_width_s = thruster_conf.ReadDouble(Section, "step_width_s");
+
   power_port->InitializeWithInitializeFile(file_name);
 
   SimpleThruster thruster(prescaler, clock_generator, power_port, thruster_id, thruster_pos, thruster_dir, max_magnitude_N,
-                          magnitude_standard_deviation_N, deg_err, structure, dynamics);
+                          magnitude_standard_deviation_N, deg_err, dead_time_s, time_constant_s, step_width_s, structure, dynamics);
   return thruster;
 }
 
