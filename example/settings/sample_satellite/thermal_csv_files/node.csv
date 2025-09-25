@@ -1,4 +1,4 @@
-Node_id,Node_label,"node_type (0: diffusive, 1: boundary, 2: arithmetic)",heater_node_id,capacity[J/K],alpha,area[m^2],normal_v_b_x,normal_v_b_y,normal_v_b_z,initial_temperature[K]
-0,BUS,0,1,880,0.2,0.06,1,0,0,300
-1,SAP,0,0,100,0,0.02,0,0,1,250
-2,SPACE,1,0,0,0,0,0,0,0,2.73
+Node_id,Node_label,node_type (0: diffusive 1: boundary 2: arithmetic),heater_node_id,capacity[J/K],alpha,epsilon,area[m^2],normal_v_b_x,normal_v_b_y,normal_v_b_z,initial_temperature[K]
+0,BUS,0,1,880,0.2,0.7,0.06,1,0,0,300
+1,SAP,0,0,100,0,0,0.02,0,0,1,250
+2,SPACE,1,0,0,0,0,0,0,0,0,2.73
