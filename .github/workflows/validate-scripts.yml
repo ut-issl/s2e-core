@@ -19,7 +19,7 @@ jobs:
         script_dir: ['./scripts/Plot']
 
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v5.0.1
 
       - name: read python version from Pipfile
         id: python-version
