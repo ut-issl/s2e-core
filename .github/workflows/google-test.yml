@@ -24,10 +24,10 @@ jobs:
         compiler: ['gcc-11 g++-11', 'clang clang++']
 
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v4.3.1
 
       - name: checkout the submodules
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4.3.1
         with:
           submodules: recursive
 
