@@ -67,7 +67,7 @@ jobs:
 
       - name: cache extlib
         id: cache-extlib
-        uses: actions/cache@v4.2.4
+        uses: actions/cache@v5.0.2
         with:
           key: extlib-${{ runner.os }}-${{ hashFiles('./ExtLibraries/**') }}-${{ matrix.build_bit }}
           path: ./ExtLibraries
@@ -200,7 +200,7 @@ jobs:
 
       - name: cache extlib
         id: cache-extlib
-        uses: actions/cache@v4.2.4
+        uses: actions/cache@v5.0.2
         with:
           key: extlib-${{ runner.os }}-${{ hashFiles('./ExtLibraries/**') }}-${{ matrix.build_bit }}
           path: ExtLibraries
