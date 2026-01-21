@@ -27,11 +27,13 @@ elseif(APPLE)
     # APPLE Silicon
     set(CSPICE_URL https://naif.jpl.nasa.gov/pub/naif/toolkit//C/MacM1_OSX_clang_64bit/packages/cspice.tar.Z)
     set(CSPICE_SHA256 "0deae048443e11ca4d093cac651d9785d4f2594631a183d85a3d58949f4d0aa9")
+    set(CSPICE_CONFIGURE_COMMAND "")
     set(CSPICE_BUILD_COMMAND "")
   else()
     # APPLE Intel
     set(CSPICE_URL https://naif.jpl.nasa.gov/pub/naif/toolkit//C/MacIntel_OSX_AppleC_64bit/packages/cspice.tar.Z)
     set(CSPICE_SHA256 "6f4980445fee4d363dbce6f571819f4a248358d2c1bebca47e0743eedfe9935e")
+    set(CSPICE_CONFIGURE_COMMAND "")
     set(CSPICE_BUILD_COMMAND "")
   endif()
 else()
@@ -39,10 +41,21 @@ else()
   if(BUILD_64BIT)
     set(CSPICE_URL https://naif.jpl.nasa.gov/pub/naif/toolkit/C/PC_Linux_GCC_64bit/packages/cspice.tar.Z)
     set(CSPICE_SHA256 "60a95b51a6472f1afe7e40d77ebdee43c12bb5b8823676ccc74692ddfede06ce")
+    set(CSPICE_CONFIGURE_COMMAND "")
     set(CSPICE_BUILD_COMMAND "")
+
+    # If we build on aarch64 linux, we cannot use binary package. Let's (super-slow) build
+    if(NOT ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
+      # super remove no-need compile option
+      set(CSPICE_CONFIGURE_COMMAND find . -type f -exec sed -i "s/-m64//g" {} +)
+
+      # build cspice by host C-compiler with original build logic
+      set(CSPICE_BUILD_COMMAND "./makeall.csh")
+    endif()
   else()
     set(CSPICE_URL https://naif.jpl.nasa.gov/pub/naif/toolkit/C/PC_Linux_GCC_32bit/packages/cspice.tar.Z)
     set(CSPICE_SHA256 "33d75cd94acf6546e53d7ebc4e7d3d6d42ac27c83cb0d8f04c91a8b50c1149e3")
+    set(CSPICE_CONFIGURE_COMMAND "")
     set(CSPICE_BUILD_COMMAND "")
   endif()
 endif()
@@ -53,7 +66,7 @@ ExternalProject_Add(cspice
   URL_HASH SHA256=${CSPICE_SHA256}
   # DOWNLOAD_EXTRACT_TIMESTAMP false # prepare for CMake 3.24
   SOURCE_DIR "cspice"
-  CONFIGURE_COMMAND ""
+  CONFIGURE_COMMAND ${CSPICE_CONFIGURE_COMMAND}
   BUILD_IN_SOURCE true
   BUILD_COMMAND "${CSPICE_BUILD_COMMAND}"
   INSTALL_COMMAND ""
