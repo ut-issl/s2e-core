@@ -17,7 +17,11 @@
 #warning "C2A_CORE_VER_MAJOR is not defined"   # this flag is defined after c2a-core v3.5.0
 #elif C2A_CORE_VER_MAJOR == 4
 // c2a-core v4
+#if C2A_CORE_VER_MINOR <= 3
 #include "src_core/tlm_cmd/common_cmd_packet_util.h"
+#else
+#include "src_core/tlm_cmd/common_packet/common_cmd_packet_util.h"
+#endif
 #elif C2A_CORE_VER_MAJOR <= 3
 // c2a-core <= v3
 #include "src_core/TlmCmd/common_cmd_packet_util.h"
