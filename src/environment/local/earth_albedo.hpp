@@ -14,7 +14,7 @@ namespace s2e::environment {
 
 /**
  * @class EarthAlbedo
- * @brief Class to calculate Solar Radiation Pressure
+ * @brief Class to calculate Earth Albedo
  */
 class EarthAlbedo : public logger::ILoggable {
  public:
@@ -98,7 +98,7 @@ class EarthAlbedo : public logger::ILoggable {
 
 /**
  * @fn InitEarthAlbedo
- * @brief Initialize solar radiation pressure
+ * @brief Initialize earth albedo
  * @param [in] initialize_file_path: Path to initialize file
  */
 EarthAlbedo InitEarthAlbedo(std::string initialize_file_path, LocalCelestialInformation* local_celestial_information,

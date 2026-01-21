@@ -7,6 +7,7 @@ add_library(${PROJECT_NAME} OBJECT
   geomagnetic_field.cpp
   solar_radiation_pressure_environment.cpp
   earth_albedo.cpp
+  earth_infrared.cpp
   local_celestial_information.cpp
 )
 
