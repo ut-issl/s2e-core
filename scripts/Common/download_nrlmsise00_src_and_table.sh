@@ -4,7 +4,7 @@ cd `dirname $0`
 #set variables
 DIR_NRLMSISE00=../../../ExtLibraries/nrlmsise00/
 URL_NRLMSISE00=git://git.linta.de/~brodo/nrlmsise-00.git
-URL_TABLE=ftp://ftp.agi.com/pub/DynamicEarthData/SpaceWeather-v1.2.txt
+URL_TABLE=https://ftp.agi.com/pub/DynamicEarthData/SpaceWeather-v1.2.txt
 
 mkdir -p $DIR_NRLMSISE00/table/
 mkdir -p $DIR_NRLMSISE00/src/
