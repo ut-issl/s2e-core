@@ -53,12 +53,12 @@ double Node::CalcAlbedoRadiation_W(math::Vector<3> earth_position_b_m, math::Vec
   math::Vector<3> vec_a = -sat2earth_direction_b;
   math::Vector<3> vec_b = (sat2sun_direction_b - sat2earth_direction_b).CalcNormalizedVector();
 
-  double cos_theta = InnerProduct(vec_a, vec_b);
-  double lamda = acos(InnerProduct(sat2earth_direction_b, normal_vector_b_));
-  double h = earth_position_b_m.CalcNorm() - environment::earth_equatorial_radius_m;
-  double H = earth_position_b_m.CalcNorm() / environment::earth_equatorial_radius_m;
-  double phi_m = asin(1.0 / H);
-  double b = sqrt(H * H - 1.0);
+  const double cos_theta = InnerProduct(vec_a, vec_b);
+  const double lamda = acos(InnerProduct(sat2earth_direction_b, normal_vector_b_));
+  const double h = earth_position_b_m.CalcNorm() - environment::earth_equatorial_radius_m;
+  const double H = earth_position_b_m.CalcNorm() / environment::earth_equatorial_radius_m;
+  const double phi_m = asin(1.0 / H);
+  const double b = sqrt(H * H - 1.0);
   double view_factor;
 
   // Calc view factor
