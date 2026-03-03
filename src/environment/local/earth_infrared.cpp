@@ -59,8 +59,8 @@ EarthInfrared InitEarthInfrared(std::string initialize_file_path, LocalCelestial
 
   EarthInfrared earth_infrared(local_celestial_information, srp_environment);
   earth_infrared.SetIsCalcEarthInfraredEnabled(conf.ReadEnable(section, INI_CALC_LABEL));
-  earth_infrared.SetEarthTempHotSide(conf.ReadDouble(section, "earth_infrared_temperature_hot_side_K"));
-  earth_infrared.SetEarthTempColdSide(conf.ReadDouble(section, "earth_infrared_temperature_cold_side_K"));
+  earth_infrared.SetEarthTempHotSide_K(conf.ReadDouble(section, "earth_infrared_temperature_hot_side_K"));
+  earth_infrared.SetEarthTempColdSide_K(conf.ReadDouble(section, "earth_infrared_temperature_cold_side_K"));
 
   return earth_infrared;
 }

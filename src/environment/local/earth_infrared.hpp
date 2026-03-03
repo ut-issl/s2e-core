@@ -58,10 +58,10 @@ class EarthInfrared : public logger::ILoggable {
   inline void SetIsCalcEarthInfraredEnabled(const bool is_calc_earth_infrared_enabled) {
     is_calc_earth_infrared_enabled_ = is_calc_earth_infrared_enabled;
   }
-  inline void SetEarthTempHotSide(const double earth_infrared_temperature_hot_side_K) {
+  inline void SetEarthTempHotSide_K(const double earth_infrared_temperature_hot_side_K) {
     earth_infrared_temperature_hot_side_K_ = earth_infrared_temperature_hot_side_K;
   }
-  inline void SetEarthTempColdSide(const double earth_infrared_temperature_cold_side_K) {
+  inline void SetEarthTempColdSide_K(const double earth_infrared_temperature_cold_side_K) {
     earth_infrared_temperature_cold_side_K_ = earth_infrared_temperature_cold_side_K;
   }
 
