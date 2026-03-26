@@ -9,6 +9,7 @@
 #include "atmosphere.hpp"
 #include "dynamics/dynamics.hpp"
 #include "earth_albedo.hpp"
+#include "earth_infrared.hpp"
 #include "environment/global/global_environment.hpp"
 #include "geomagnetic_field.hpp"
 #include "local_celestial_information.hpp"
@@ -77,6 +78,11 @@ class LocalEnvironment {
    */
   inline const EarthAlbedo& GetEarthAlbedo() const { return *earth_albedo_; }
   /**
+   * @fn GetEarthInfrared
+   * @brief Return EarthInfrared class
+   */
+  inline const EarthInfrared& GetEarthInfrared() const { return *earth_infrared_; }
+  /**
    * @fn GetCelestialInformation
    * @brief Return LocalCelestialInformation class
    */
@@ -87,6 +93,7 @@ class LocalEnvironment {
   GeomagneticField* geomagnetic_field_;                                      //!< Magnetic field of the earth
   SolarRadiationPressureEnvironment* solar_radiation_pressure_environment_;  //!< Solar radiation pressure
   EarthAlbedo* earth_albedo_;                                                //!< Earth albedo
+  EarthInfrared* earth_infrared_;                                            //!< Earth infrared
   LocalCelestialInformation* celestial_information_;                         //!< Celestial information
 
   /**

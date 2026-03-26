@@ -19,6 +19,7 @@ LocalEnvironment::~LocalEnvironment() {
   delete geomagnetic_field_;
   delete solar_radiation_pressure_environment_;
   delete earth_albedo_;
+  delete earth_infrared_;
   delete atmosphere_;
   delete celestial_information_;
 }
@@ -39,6 +40,7 @@ void LocalEnvironment::Initialize(const simulation::SimulationConfiguration* sim
   solar_radiation_pressure_environment_ =
       new SolarRadiationPressureEnvironment(InitSolarRadiationPressureEnvironment(ini_fname, celestial_information_));
   earth_albedo_ = new EarthAlbedo(InitEarthAlbedo(ini_fname, celestial_information_, solar_radiation_pressure_environment_));
+  earth_infrared_ = new EarthInfrared(InitEarthInfrared(ini_fname, celestial_information_, solar_radiation_pressure_environment_));
 
   // Force to disable when the center body is not the Earth
   if (global_environment->GetCelestialInformation().GetCenterBodyName() != "EARTH") {
@@ -67,6 +69,7 @@ void LocalEnvironment::Update(const dynamics::Dynamics* dynamics, const Simulati
   if (simulation_time->GetOrbitPropagateFlag()) {
     solar_radiation_pressure_environment_->UpdateAllStates();
     earth_albedo_->UpdateAllStates();
+    earth_infrared_->UpdateAllStates();
     atmosphere_->CalcAirDensity_kg_m3(simulation_time->GetCurrentDecimalYear(), orbit);
   }
 }
@@ -75,6 +78,7 @@ void LocalEnvironment::LogSetup(logger::Logger& logger) {
   logger.AddLogList(geomagnetic_field_);
   logger.AddLogList(solar_radiation_pressure_environment_);
   logger.AddLogList(earth_albedo_);
+  logger.AddLogList(earth_infrared_);
   logger.AddLogList(atmosphere_);
   logger.AddLogList(celestial_information_);
 }
