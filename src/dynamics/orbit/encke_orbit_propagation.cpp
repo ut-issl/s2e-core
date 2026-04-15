@@ -106,6 +106,7 @@ void EnckeOrbitPropagation::Initialize(double current_time_jd, libra::Vector<3> 
 void EnckeOrbitPropagation::UpdateSatOrbit() {
   spacecraft_position_i_m_ = reference_position_i_m_ + difference_position_i_m_;
   spacecraft_velocity_i_m_s_ = reference_velocity_i_m_s_ + difference_velocity_i_m_s_;
+  UpdateTotalAcceleration_i_m_s2(gravity_constant_m3_s2_);
 
   TransformEciToEcef();
   TransformEcefToGeodetic();

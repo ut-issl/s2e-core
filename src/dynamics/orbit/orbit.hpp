@@ -110,6 +110,11 @@ class Orbit : public ILoggable {
    */
   inline libra::Vector<3> GetVelocity_ecef_m_s() const { return spacecraft_velocity_ecef_m_s_; }
   /**
+   * @fn GetTotalAcceleration_i_m_s2
+   * @brief Return spacecraft total acceleration in the inertial frame [m/s2]
+   */
+  inline libra::Vector<3> GetTotalAcceleration_i_m_s2() const { return spacecraft_total_acceleration_i_m_s2_; }
+  /**
    * @fn GetGeodeticPosition
    * @brief Return spacecraft position in the geodetic frame [m]
    */
@@ -201,6 +206,7 @@ class Orbit : public ILoggable {
 
   libra::Vector<3> spacecraft_acceleration_i_m_s2_;  //!< Spacecraft acceleration in the inertial frame [m/s2]
                                                      //!< NOTE: Clear to zero at the end of the Propagate function
+  libra::Vector<3> spacecraft_total_acceleration_i_m_s2_{0.0};  //!< Spacecraft total acceleration in the inertial frame [m/s2]
 
   // Frame Conversion TODO: consider other planet
   /**
@@ -213,6 +219,11 @@ class Orbit : public ILoggable {
    * @brief Transform states from the ECEF frame to the geodetic frame
    */
   void TransformEcefToGeodetic(void);
+  /**
+   * @fn UpdateTotalAcceleration_i_m_s2
+   * @brief Update total acceleration in the inertial frame from the current state and applied perturbation acceleration
+   */
+  void UpdateTotalAcceleration_i_m_s2(double gravity_constant_m3_s2);
 };
 
 OrbitInitializeMode SetOrbitInitializeMode(const std::string initialize_mode);

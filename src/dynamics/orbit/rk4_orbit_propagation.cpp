@@ -57,6 +57,7 @@ void Rk4OrbitPropagation::Initialize(libra::Vector<3> position_i_m, libra::Vecto
   spacecraft_velocity_i_m_s_[0] = init_state[3];
   spacecraft_velocity_i_m_s_[1] = init_state[4];
   spacecraft_velocity_i_m_s_[2] = init_state[5];
+  UpdateTotalAcceleration_i_m_s2(gravity_constant_m3_s2_);
 
   TransformEciToEcef();
   TransformEcefToGeodetic();
@@ -82,6 +83,7 @@ void Rk4OrbitPropagation::Propagate(const double end_time_s, const double curren
   spacecraft_velocity_i_m_s_[0] = GetState()[3];
   spacecraft_velocity_i_m_s_[1] = GetState()[4];
   spacecraft_velocity_i_m_s_[2] = GetState()[5];
+  UpdateTotalAcceleration_i_m_s2(gravity_constant_m3_s2_);
 
   TransformEciToEcef();
   TransformEcefToGeodetic();

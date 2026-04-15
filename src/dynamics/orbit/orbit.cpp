@@ -50,6 +50,17 @@ void Orbit::TransformEcefToGeodetic(void) {
   }
 }
 
+void Orbit::UpdateTotalAcceleration_i_m_s2(const double gravity_constant_m3_s2) {
+  spacecraft_total_acceleration_i_m_s2_ = spacecraft_acceleration_i_m_s2_;
+
+  const double radius_m = spacecraft_position_i_m_.CalcNorm();
+  if (radius_m <= 0.0) {
+    return;
+  }
+
+  spacecraft_total_acceleration_i_m_s2_ += -(gravity_constant_m3_s2 / (radius_m * radius_m * radius_m)) * spacecraft_position_i_m_;
+}
+
 OrbitInitializeMode SetOrbitInitializeMode(const std::string initialize_mode) {
   if (initialize_mode == "DEFAULT") {
     return OrbitInitializeMode::kDefault;

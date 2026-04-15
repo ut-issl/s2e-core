@@ -45,6 +45,7 @@ void RelativeOrbit::InitializeState(libra::Vector<3> relative_position_lvlh_m, l
   libra::Quaternion q_lvlh2i = q_i2lvlh.Conjugate();
   spacecraft_position_i_m_ = q_lvlh2i.FrameConversion(relative_position_lvlh_m_) + reference_sat_position_i;
   spacecraft_velocity_i_m_s_ = q_lvlh2i.FrameConversion(relative_velocity_lvlh_m_s_) + reference_sat_velocity_i;
+  UpdateTotalAcceleration_i_m_s2(gravity_constant_m3_s2_);
 
   initial_state_[0] = relative_position_lvlh_m[0];
   initial_state_[1] = relative_position_lvlh_m[1];
@@ -116,6 +117,7 @@ void RelativeOrbit::Propagate(const double end_time_s, const double current_time
 
   spacecraft_position_i_m_ = q_lvlh2i.FrameConversion(relative_position_lvlh_m_) + reference_sat_position_i;
   spacecraft_velocity_i_m_s_ = q_lvlh2i.FrameConversion(relative_velocity_lvlh_m_s_) + reference_sat_velocity_i;
+  UpdateTotalAcceleration_i_m_s2(gravity_constant_m3_s2_);
   TransformEciToEcef();
   TransformEcefToGeodetic();
 }
