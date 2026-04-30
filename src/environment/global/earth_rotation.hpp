@@ -40,6 +40,13 @@ class EarthRotation {
    * @param [in] julian_date: Julian date
    */
   void Update(const double julian_date);
+  /**
+   * @fn UpdateWithElapsedTime
+   * @brief Update rotation with a split epoch to reduce precision loss at short time steps
+   * @param [in] start_julian_date: Simulation start Julian date
+   * @param [in] elapsed_time_s: Elapsed time from the start epoch [sec]
+   */
+  void UpdateWithElapsedTime(const double start_julian_date, const double elapsed_time_s);
 
   /**
    * @fn GetDcmJ2000ToEcef

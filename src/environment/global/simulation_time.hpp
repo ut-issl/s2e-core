@@ -188,6 +188,11 @@ class SimulationTime : public ILoggable {
    */
   inline double GetCurrentTime_jd(void) const { return current_jd_; };
   /**
+   *@fn GetStartTime_jd
+   *@brief Return simulation start Julian day [day]
+   */
+  inline double GetStartTime_jd(void) const { return start_jd_; };
+  /**
    *@fn GetCurrentSiderealTime
    *@brief Return current sidereal day [day]
    */

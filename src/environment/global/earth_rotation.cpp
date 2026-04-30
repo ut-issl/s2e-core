@@ -8,6 +8,7 @@
 
 #include "earth_rotation.hpp"
 
+#include <cmath>
 #include <iostream>
 #include <sstream>
 
@@ -109,6 +110,23 @@ void EarthRotation::InitializeParameters() {
   }
 }
 
+namespace {
+
+double CalcGreenwichMeanSiderealTimeRad(const long double julian_date_ut1) {
+  const long double twopi = 2.0L * libra::pi_v<long double>;
+  const long double deg2rad = libra::pi_v<long double> / 180.0L;
+  const long double tut1 = (julian_date_ut1 - 2451545.0L) / 36525.0L;
+
+  long double temp_sec =
+      -6.2e-6L * tut1 * tut1 * tut1 + 0.093104L * tut1 * tut1 + (876600.0L * 3600.0L + 8640184.812866L) * tut1 + 67310.54841L;
+  long double gmst_rad = std::fmod(temp_sec * deg2rad / 240.0L, twopi);
+  if (gmst_rad < 0.0L) gmst_rad += twopi;
+
+  return static_cast<double>(gmst_rad);
+}
+
+}  // namespace
+
 void EarthRotation::Update(const double julian_date) {
   double gmst_rad = gstime(julian_date);  // It is a bit different with 長沢(Nagasawa)'s algorithm. TODO: Check the correctness
 
@@ -151,6 +169,40 @@ void EarthRotation::Update(const double julian_date) {
   } else {
     // Leave the DCM as unit Matrix(diag{1,1,1})
     return;
+  }
+}
+
+void EarthRotation::UpdateWithElapsedTime(const double start_julian_date, const double elapsed_time_s) {
+  const long double julian_date = static_cast<long double>(start_julian_date) + static_cast<long double>(elapsed_time_s) * kSec2Day_;
+  double gmst_rad = CalcGreenwichMeanSiderealTimeRad(julian_date);
+
+  if (rotation_mode_ == EarthRotationMode::kFull) {
+    const long double terrestrial_time_julian_day = julian_date + static_cast<long double>(kDtUt1Utc_) * kSec2Day_;
+
+    double terrestrial_time_julian_century[4];
+    terrestrial_time_julian_century[0] =
+        static_cast<double>((terrestrial_time_julian_day - static_cast<long double>(kJulianDateJ2000_)) / kDayJulianCentury_);
+    for (int i = 0; i < 3; i++) {
+      terrestrial_time_julian_century[i + 1] = terrestrial_time_julian_century[i] * terrestrial_time_julian_century[0];
+    }
+
+    libra::Matrix<3, 3> dcm_precession;
+    libra::Matrix<3, 3> dcm_nutation;
+    libra::Matrix<3, 3> dcm_rotation;
+    libra::Matrix<3, 3> dcm_polar_motion;
+    dcm_precession = Precession(terrestrial_time_julian_century);
+    dcm_nutation = Nutation(terrestrial_time_julian_century);
+
+    double equinox_rad = d_psi_rad_ * cos(epsilon_rad_ + d_epsilon_rad_);
+    double gast_rad = gmst_rad + equinox_rad;
+    dcm_rotation = AxialRotation(gast_rad);
+    double x_p = 0.0;
+    double y_p = 0.0;
+    dcm_polar_motion = PolarMotion(x_p, y_p);
+
+    dcm_j2000_to_ecef_ = dcm_polar_motion * dcm_rotation * dcm_nutation * dcm_precession;
+  } else if (rotation_mode_ == EarthRotationMode::kSimple) {
+    dcm_j2000_to_ecef_ = AxialRotation(gmst_rad);
   }
 }
 
