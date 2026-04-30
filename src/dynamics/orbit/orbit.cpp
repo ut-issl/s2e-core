@@ -32,12 +32,16 @@ void Orbit::TransformEciToEcef(void) {
   libra::Matrix<3, 3> dcm_i_to_xcxf = celestial_information_->GetEarthRotation().GetDcmJ2000ToEcef();
   spacecraft_position_ecef_m_ = dcm_i_to_xcxf * spacecraft_position_i_m_;
 
-  // convert velocity vector in ECI to the vector in ECEF
-  libra::Vector<3> earth_angular_velocity_i_rad_s{0.0};
-  earth_angular_velocity_i_rad_s[2] = environment::earth_mean_angular_velocity_rad_s;
-  libra::Vector<3> we_cross_r = OuterProduct(earth_angular_velocity_i_rad_s, spacecraft_position_i_m_);
-  libra::Vector<3> velocity_we_cross_r = spacecraft_velocity_i_m_s_ - we_cross_r;
-  spacecraft_velocity_ecef_m_s_ = dcm_i_to_xcxf * velocity_we_cross_r;
+  libra::Vector<3> earth_angular_velocity_ecef_rad_s{0.0};
+  earth_angular_velocity_ecef_rad_s[2] = environment::earth_mean_angular_velocity_rad_s;
+
+  spacecraft_velocity_ecef_m_s_ = dcm_i_to_xcxf * spacecraft_velocity_i_m_s_;
+  spacecraft_velocity_ecef_m_s_ -= OuterProduct(earth_angular_velocity_ecef_rad_s, spacecraft_position_ecef_m_);
+
+  spacecraft_total_acceleration_ecef_m_s2_ = dcm_i_to_xcxf * spacecraft_total_acceleration_i_m_s2_;
+  spacecraft_total_acceleration_ecef_m_s2_ -= 2.0 * OuterProduct(earth_angular_velocity_ecef_rad_s, spacecraft_velocity_ecef_m_s_);
+  spacecraft_total_acceleration_ecef_m_s2_ -=
+      OuterProduct(earth_angular_velocity_ecef_rad_s, OuterProduct(earth_angular_velocity_ecef_rad_s, spacecraft_position_ecef_m_));
 }
 
 void Orbit::TransformEcefToGeodetic(void) {

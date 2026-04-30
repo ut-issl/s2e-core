@@ -115,6 +115,11 @@ class Orbit : public ILoggable {
    */
   inline libra::Vector<3> GetTotalAcceleration_i_m_s2() const { return spacecraft_total_acceleration_i_m_s2_; }
   /**
+   * @fn GetTotalAcceleration_ecef_m_s2
+   * @brief Return spacecraft total acceleration in the ECEF frame [m/s2]
+   */
+  inline libra::Vector<3> GetTotalAcceleration_ecef_m_s2() const { return spacecraft_total_acceleration_ecef_m_s2_; }
+  /**
    * @fn GetGeodeticPosition
    * @brief Return spacecraft position in the geodetic frame [m]
    */
@@ -207,6 +212,7 @@ class Orbit : public ILoggable {
   libra::Vector<3> spacecraft_acceleration_i_m_s2_;  //!< Spacecraft acceleration in the inertial frame [m/s2]
                                                      //!< NOTE: Clear to zero at the end of the Propagate function
   libra::Vector<3> spacecraft_total_acceleration_i_m_s2_{0.0};  //!< Spacecraft total acceleration in the inertial frame [m/s2]
+  libra::Vector<3> spacecraft_total_acceleration_ecef_m_s2_{0.0};  //!< Spacecraft total acceleration in the ECEF frame [m/s2]
 
   // Frame Conversion TODO: consider other planet
   /**
