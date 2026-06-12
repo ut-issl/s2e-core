@@ -17,6 +17,9 @@ on:
       - 'example/CMakeLists.txt'
       - 'example/src/**'
 
+permissions:
+  contents: read
+
 env:
   # datasource=github-releases depName=ut-issl/c2a-core
   C2A_CORE_VERSION: v3.10.1
@@ -161,6 +164,9 @@ jobs:
   build_s2e_linux:
     name: Build on Linux
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
     strategy:
       fail-fast: false
       matrix:
