@@ -66,8 +66,8 @@ class EarthInfrared : public logger::ILoggable {
   }
 
  private:
-  double earth_infrared_W_m2_ = 0.0;                   //!< Earth infrared [W/m^2]
-  bool is_calc_earth_infrared_enabled_ = false;        //!< Calculation flag
+  double earth_infrared_W_m2_ = 0.0;                     //!< Earth infrared [W/m^2]
+  bool is_calc_earth_infrared_enabled_ = false;          //!< Calculation flag
   double earth_infrared_temperature_hot_side_K_ = 0.0;   //!< Earth infrared temperature hot side [K]
   double earth_infrared_temperature_cold_side_K_ = 0.0;  //!< Earth infrared temperature cold side [K]
 
