@@ -106,7 +106,8 @@ double Node::CalcEarthInfraredRadiation_W(math::Vector<3> earth_position_b_m, do
   double view_factor;
 
   // Calc view factor
-  // The magic number. ref) POWER INPUT TO A SMALL FLAT PLATE FROM A DIFFUSELY RADIATING SPHERE WITH APPLICATION TO EARTH SATELLITES: THE SPINNING PLATE
+  // The magic number. ref) POWER INPUT TO A SMALL FLAT PLATE FROM A DIFFUSELY
+  // RADIATING SPHERE WITH APPLICATION TO EARTH SATELLITES: THE SPINNING PLATE
   if (h < 1732e3) {
     if (lamda <= math::pi / 2.0 - phi_m) {
       view_factor = cos(lamda) / H / H;
