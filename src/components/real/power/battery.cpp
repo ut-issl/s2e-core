@@ -119,7 +119,7 @@ Battery InitBAT(environment::ClockGenerator* clock_generator, int bat_id, const 
   initial_dod = bat_conf.ReadDouble(section_name.c_str(), "initial_dod");
 
   double cc_charge_c_rate;
-  cc_charge_c_rate = bat_conf.ReadDouble(section_name.c_str(), "constant_charge_current_A_rate_C");
+  cc_charge_c_rate = bat_conf.ReadDouble(section_name.c_str(), "constant_charge_current_rate_C");
 
   double cv_charge_voltage_V;
   cv_charge_voltage_V = bat_conf.ReadDouble(section_name.c_str(), "constant_voltage_charge_voltage_V");

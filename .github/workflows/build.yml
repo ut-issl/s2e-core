@@ -10,11 +10,15 @@ on:
     paths:
       - '.github/workflows/build.yml'
       - 'ExtLibraries/**'
-      - 'CMakeLists.txt'
       - 'common.cmake'
-      - 'CMakeSettings.json'
       - 'src/**'
       - 'scripts/Plot/Pipfile'
+      - 'example/CMakeSettings.json'
+      - 'example/CMakeLists.txt'
+      - 'example/src/**'
+
+permissions:
+  contents: read
 
 env:
   # datasource=github-releases depName=ut-issl/c2a-core
@@ -22,21 +26,26 @@ env:
 
 jobs:
   build_s2e_win:
-    name: Build on Windows VS2022
-    # VS2022 を使うため
-    runs-on: windows-2022
+    name: Build on Windows VS2026
+    # VS2026 を使うため
+    runs-on: windows-2025
     strategy:
       fail-fast: false
       matrix:
-        use_c2a: ['USE_C2A=OFF', 'USE_C2A=ON']
-        build_bit: ['BUILD_64BIT=OFF', 'BUILD_64BIT=ON']
+        include:
+          - build_bit: 'BUILD_64BIT=OFF'
+            use_c2a: 'USE_C2A=OFF'
+          - build_bit: 'BUILD_64BIT=OFF'
+            use_c2a: 'USE_C2A=ON'
+          - build_bit: 'BUILD_64BIT=ON'
+            use_c2a: 'USE_C2A=OFF'
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6.0.3
 
       - name: checkout C2A core
         if: contains(matrix.use_c2a, 'ON')
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6.0.3
         with:
           path: c2a-core
           repository: ut-issl/c2a-core
@@ -50,7 +59,7 @@ jobs:
         run: setup.bat
 
       - name: Configure build for x86
-        uses: ilammy/msvc-dev-cmd@v1
+        uses: ilammy/msvc-dev-cmd@v1.13.0
         with:
           arch: amd64_x86
 
@@ -61,7 +70,7 @@ jobs:
 
       - name: cache extlib
         id: cache-extlib
-        uses: actions/cache@v4
+        uses: actions/cache@v5.0.5
         with:
           key: extlib-${{ runner.os }}-${{ hashFiles('./ExtLibraries/**') }}-${{ matrix.build_bit }}
           path: ./ExtLibraries
@@ -72,7 +81,7 @@ jobs:
         working-directory: ./ExtLibraries
         run: |
           $extlib_dir=(pwd).Path
-          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR="${extlib_dir}" -D${{ matrix.build_bit }}
+          cmake -G "Visual Studio 18 2026" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR="${extlib_dir}" -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: build extlib 64bit
@@ -81,7 +90,7 @@ jobs:
         working-directory: ./ExtLibraries
         run: |
           $extlib_dir=(pwd).Path
-          cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR="${extlib_dir}" -D${{ matrix.build_bit }}
+          cmake -G "Visual Studio 18 2026" -A x64 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR="${extlib_dir}" -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: install extlib
@@ -105,47 +114,59 @@ jobs:
           ls nrlmsise00/src
 
       - name: copy to settings
-        if: steps.cache-extlib.outputs.cache-hit == 'true'
+        # if: steps.cache-extlib.outputs.cache-hit == 'true'
         shell: powershell
         run: |
-          ls ./settings/environment/cspice
-          cp -r "./ExtLibraries/cspice/generic_kernels" "./settings/environment/cspice"
-          ls ./settings/environment/cspice
-          ls ./settings/environment/cspice/generic_kernels/lsk
-          ls ./settings/environment/cspice/generic_kernels/pck
-          ls ./settings/environment/cspice/generic_kernels/spk          
+          ls ./example/settings/environment/cspice
+          cp -r "./ExtLibraries/cspice/generic_kernels" "./example/settings/environment/cspice"
+          ls ./example/settings/environment/cspice
+          ls ./example/settings/environment/cspice/generic_kernels/lsk
+          ls ./example/settings/environment/cspice/generic_kernels/pck
+          ls ./example/settings/environment/cspice/generic_kernels/spk
 
-      - name: build 32bit
+      - name: build example (32bit)
         if: matrix.build_bit == 'BUILD_64BIT=OFF'
         shell: cmd
+        working-directory: ./example
         run: |
           cl.exe
-          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=./ -DEXT_LIB_DIR=./ExtLibraries -DEXT_LIB_DIR_FROM_EXE=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
+          cmake -G "Visual Studio 18 2026" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=../ -DEXT_LIB_DIR=../ExtLibraries -DEXT_LIB_DIR_FROM_EXE=../../ExtLibraries -DFLIGHT_SW_DIR=../c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
           cmake --build .
 
-      - name: build 64bit
-        if: matrix.build_bit == 'BUILD_64BIT=ON' && matrix.use_c2a == 'USE_C2A=OFF'
+      - name: build example (64bit)
+        if: matrix.build_bit == 'BUILD_64BIT=ON'
         shell: cmd
+        working-directory: ./example
         run: |
           cl.exe
-          cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=./ -DEXT_LIB_DIR=./ExtLibraries -DEXT_LIB_DIR_FROM_EXE=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
+          cmake -G "Visual Studio 18 2026" -A x64 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=../ -DEXT_LIB_DIR=../ExtLibraries -DEXT_LIB_DIR_FROM_EXE=../../ExtLibraries -DFLIGHT_SW_DIR=../c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: fix simulation config
         shell: bash
-        working-directory: ./settings
+        working-directory: ./example/settings
         run: |
           find . -type f -name '*.ini' -exec sed -i 's/..\/..\/logs/.\/logs/g' {} \;
 
-      - name: run simulation(SampleSat)
+      - name: check directories
+        shell: powershell
+        run: |
+          ls ./example/Debug/
+          ls ./example/settings/
+          ls ./ExtLibraries/
+
+      - name: run simulation (SampleSat)
         if: matrix.build_bit == 'BUILD_64BIT=OFF' || (matrix.build_bit == 'BUILD_64BIT=ON' && matrix.use_c2a == 'USE_C2A=OFF')
-        working-directory: ./
+        working-directory: ./example
         run: |
           .\Debug\S2E.exe
 
   build_s2e_linux:
     name: Build on Linux
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
     strategy:
       fail-fast: false
       matrix:
@@ -153,7 +174,7 @@ jobs:
         build_bit: ['BUILD_64BIT=OFF', 'BUILD_64BIT=ON']
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6.0.3
 
       - name: set compiler
         id: compiler
@@ -185,7 +206,7 @@ jobs:
 
       - name: cache extlib
         id: cache-extlib
-        uses: actions/cache@v4
+        uses: actions/cache@v5.0.5
         with:
           key: extlib-${{ runner.os }}-${{ hashFiles('./ExtLibraries/**') }}-${{ matrix.build_bit }}
           path: ExtLibraries
@@ -215,33 +236,44 @@ jobs:
           ls nrlmsise00/src
 
       - name: copy to settings
-        if: steps.cache-extlib.outputs.cache-hit == 'true'
+        # if: steps.cache-extlib.outputs.cache-hit == 'true'
         run: |
-          ls ./settings/environment/cspice
-          cp -r "./ExtLibraries/cspice/generic_kernels" "./settings/environment/cspice"
-          ls ./settings/environment/cspice
-          ls ./settings/environment/cspice/generic_kernels/lsk
-          ls ./settings/environment/cspice/generic_kernels/pck
-          ls ./settings/environment/cspice/generic_kernels/spk       
-     
+          ls ./example/settings/environment/cspice
+          cp -r "./ExtLibraries/cspice/generic_kernels" "./example/settings/environment/cspice"
+          ls ./example/settings/environment/cspice
+          ls ./example/settings/environment/cspice/generic_kernels/lsk
+          ls ./example/settings/environment/cspice/generic_kernels/pck
+          ls ./example/settings/environment/cspice/generic_kernels/spk       
 
       - name: build
         env:
           CC:  ${{ steps.compiler.outputs.CC  }}
           CXX: ${{ steps.compiler.outputs.CXX }}
+        working-directory: ./example
         run: |
-          cmake . -DEXT_LIB_DIR=./ExtLibraries -DEXT_LIB_DIR_FROM_EXE=./ExtLibraries -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=./ -D${{ matrix.build_bit }}
+          cmake . -DEXT_LIB_DIR=../ExtLibraries -DEXT_LIB_DIR_FROM_EXE=../ExtLibraries -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=../ -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: fix simulation config
-        working-directory: ./settings
+        working-directory: ./example/settings
         run: |
           find . -type f -name '*.ini' -exec sed -i 's/..\/..\/logs/.\/logs/g' {} \;
 
+      - name: check directories
+        run: |
+          ls ./example/
+          ls ./example/settings/
+          ls ./ExtLibraries/
+          ls ./example/logs/
+
       - name: run simulation(SampleSat)
-        working-directory: ./
+        working-directory: ./example
         run: |
           ./S2E
+
+      - name: check directories
+        run: |
+          ls ./example/logs/
 
       - name: generate graph
         working-directory: ./scripts/Plot
@@ -253,15 +285,15 @@ jobs:
           ./gen_graph.sh "${LOG}"
           ls
           ls ./imgs
-      
+
       - name: read python version from Pipfile
         id: python-version
         working-directory: ./scripts/Plot
         run: |
           ver=$(grep python_version ./Pipfile | sed -e 's/^python_version\s=\s"\(.*\)"$/\1/')
           echo "version=$ver" >> "$GITHUB_OUTPUT"
-      
-      - uses: actions/setup-python@v5.2.0
+
+      - uses: actions/setup-python@v6.2.0
         with:
           python-version: ${{ steps.python-version.outputs.version }}
 
@@ -271,7 +303,7 @@ jobs:
           pip install pipenv
           pipenv install
           pipenv run pip list
-          pipenv run python plot_gs_visibility.py --no-gui
+          pipenv run python plot_gs_visibility.py --logs-dir '../../logs' --no-gui
           ls ./*_gs_visibility.png
 
       - name: upload imgs
@@ -288,7 +320,7 @@ jobs:
 
       - name: comment imgs
         if: contains(matrix.compiler, 'clang') && contains(matrix.build_bit, 'OFF') && contains(github.event.pull_request.labels.*.name, 'automation::comment-graph')
-        uses: actions/github-script@v7.0.1
+        uses: actions/github-script@v8.0.0
         with:
           script: |
             const output = `## \`position.png\`

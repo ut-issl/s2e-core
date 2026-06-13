@@ -69,7 +69,7 @@ if(USE_C2A_COMMAND_SENDER)
   )
 endif()
 
-add_library(${PROJECT_NAME} STATIC
+add_library(${PROJECT_NAME} OBJECT
   ${SOURCE_FILES}
 )
 
