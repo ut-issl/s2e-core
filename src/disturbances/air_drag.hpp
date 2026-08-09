@@ -56,6 +56,7 @@ class AirDrag : public SurfaceForce {
  private:
   std::vector<double> cn_;          //!< Coefficients for out-plane force
   std::vector<double> ct_;          //!< Coefficients for in-plane force
+  double air_drag_coefficient_ = 0.0;  //!< Equivalent air drag coefficient [-]
   double wall_temperature_K_;       //!< Temperature of surface [K]
   double molecular_temperature_K_;  //!< Temperature of atmosphere [K]
   double molecular_weight_g_mol_;   //!< Molecular weight [g/mol]
@@ -67,6 +68,13 @@ class AirDrag : public SurfaceForce {
    * @param [in] air_density_kg_m3: Air density around the spacecraft [kg/m^3]
    */
   void CalcCoefficients(const libra::Vector<3>& velocity_b_m_s, const double air_density_kg_m3);
+  /**
+   * @fn CalcAirDragCoefficient
+   * @brief Calculate the equivalent drag coefficient from calculated drag force
+   * @param [in] velocity_b_m_s: Spacecraft's velocity vector in the body frame [m/s]
+   * @param [in] air_density_kg_m3: Air density around the spacecraft [kg/m^3]
+   */
+  void CalcAirDragCoefficient(const libra::Vector<3>& velocity_b_m_s, const double air_density_kg_m3);
 
   // internal function for calculation
   /**

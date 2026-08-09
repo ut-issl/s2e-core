@@ -5,6 +5,7 @@
 
 #include "air_drag.hpp"
 
+#include <cfloat>
 #include <cmath>
 #include <environment/global/physical_constants.hpp>
 #include <library/initialize/initialize_file_access.hpp>
@@ -32,6 +33,7 @@ void AirDrag::Update(const LocalEnvironment& local_environment, const Dynamics& 
   libra::Quaternion quaternion_i2b = dynamics.GetAttitude().GetQuaternion_i2b();
   libra::Vector<3> velocity_b_m_s = quaternion_i2b.FrameConversion(relative_velocity_wrt_atmosphere_i_m_s);
   CalcTorqueForce(velocity_b_m_s, air_density_kg_m3);
+  CalcAirDragCoefficient(velocity_b_m_s, air_density_kg_m3);
 }
 
 void AirDrag::CalcCoefficients(const libra::Vector<3>& velocity_b_m_s, const double air_density_kg_m3) {
@@ -58,6 +60,30 @@ double AirDrag::CalcFunctionChi(const double s) {
   return x;
 }
 
+void AirDrag::CalcAirDragCoefficient(const libra::Vector<3>& velocity_b_m_s, const double air_density_kg_m3) {
+  air_drag_coefficient_ = 0.0;
+
+  const double velocity_norm_m_s = velocity_b_m_s.CalcNorm();
+  if (air_density_kg_m3 <= DBL_EPSILON || velocity_norm_m_s <= DBL_EPSILON) {
+    return;
+  }
+
+  double projected_area_m2 = 0.0;
+  for (size_t i = 0; i < surfaces_.size(); ++i) {
+    if (cos_theta_[i] > 0.0) {
+      projected_area_m2 += surfaces_[i].GetArea_m2() * cos_theta_[i];
+    }
+  }
+  if (projected_area_m2 <= DBL_EPSILON) {
+    return;
+  }
+
+  const libra::Vector<3> velocity_direction_b = velocity_b_m_s.CalcNormalizedVector();
+  const double drag_force_N = -1.0 * InnerProduct(force_b_N_, velocity_direction_b);
+  const double dynamic_pressure_N_m2 = 0.5 * air_density_kg_m3 * velocity_norm_m_s * velocity_norm_m_s;
+  air_drag_coefficient_ = drag_force_N / (dynamic_pressure_N_m2 * projected_area_m2);
+}
+
 void AirDrag::CalcCnCt(const Vector<3>& velocity_b_m_s) {
   double velocity_norm_m_s = velocity_b_m_s.CalcNorm();
 
@@ -80,6 +106,7 @@ std::string AirDrag::GetLogHeader() const {
 
   str_tmp += WriteVector("air_drag_torque", "b", "Nm", 3);
   str_tmp += WriteVector("air_drag_force", "b", "N", 3);
+  str_tmp += WriteScalar("air_drag_coefficient", "-");
 
   return str_tmp;
 }
@@ -89,6 +116,7 @@ std::string AirDrag::GetLogValue() const {
 
   str_tmp += WriteVector(torque_b_Nm_);
   str_tmp += WriteVector(force_b_N_);
+  str_tmp += WriteScalar(air_drag_coefficient_);
 
   return str_tmp;
 }
