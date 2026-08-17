@@ -68,7 +68,7 @@ void SimulationCase::Main() {
 
     // Debug output
     if (global_environment_->GetSimulationTime().GetState().disp_output) {
-      std::cout << "Progress: " << global_environment_->GetSimulationTime().GetProgressionRate() << "%\r";
+      std::cout << "Progress: " << global_environment_->GetSimulationTime().GetProgressionRate() << "%\r" << std::flush;
     }
   }
 }

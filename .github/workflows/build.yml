@@ -118,7 +118,10 @@ jobs:
         shell: powershell
         run: |
           ls ./example/settings/environment/cspice
-          cp -r "./ExtLibraries/cspice/generic_kernels" "./example/settings/environment/cspice"
+          if (Test-Path "./example/settings/environment/cspice/generic_kernels") {
+            Remove-Item -Path "./example/settings/environment/cspice/generic_kernels" -Recurse -Force
+          }
+          Copy-Item -Path "./ExtLibraries/cspice/generic_kernels" -Destination "./example/settings/environment/cspice" -Recurse
           ls ./example/settings/environment/cspice
           ls ./example/settings/environment/cspice/generic_kernels/lsk
           ls ./example/settings/environment/cspice/generic_kernels/pck
