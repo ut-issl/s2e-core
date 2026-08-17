@@ -17,7 +17,7 @@ if(NOT DEFINED EXT_LIB_DIR)
 endif()
 
 if(NOT DEFINED SETTINGS_DIR)
-  set(SETTINGS_DIR "${CMAKE_CURRENT_LIST_DIR}/../settings/")
+  set(SETTINGS_DIR "${CMAKE_CURRENT_LIST_DIR}/../example/settings/")
 endif()
 
 # windows path
