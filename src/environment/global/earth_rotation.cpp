@@ -13,7 +13,7 @@
 #include <sstream>
 
 #include "math_physics/math/constants.hpp"
-#include "math_physics/orbit/sgp4/sgp4ext.h"   // for jday()
+#include "math_physics/orbit/sgp4/sgp4ext.h"  // for jday()
 #include "simulation_time.hpp"
 
 namespace s2e::environment {
@@ -115,8 +115,7 @@ void EarthRotation::InitializeParameters() {
 // Same GMST polynomial as Vallado's gstime(), with Julian centuries evaluated from split time to avoid rounding a full Julian Date.
 double EarthRotation::CalcGmstRadFromSplitJulianDate(const double julian_date_0h, const double seconds_from_0h) {
   const double tut1 = (julian_date_0h - 2451545.0) / 36525.0 + seconds_from_0h / (86400.0 * 36525.0);
-  double temp =
-      -6.2e-6 * tut1 * tut1 * tut1 + 0.093104 * tut1 * tut1 + (876600.0 * 3600 + 8640184.812866) * tut1 + 67310.54841;
+  double temp = -6.2e-6 * tut1 * tut1 * tut1 + 0.093104 * tut1 * tut1 + (876600.0 * 3600 + 8640184.812866) * tut1 + 67310.54841;
   temp = std::fmod(temp * math::deg_to_rad / 240.0, 2.0 * math::pi);
   if (temp < 0.0) temp += 2.0 * math::pi;
   return temp;
@@ -127,8 +126,8 @@ void EarthRotation::Update(const SimulationTime& simulation_time) {
   jday(simulation_time.GetStartYear(), simulation_time.GetStartMonth(), simulation_time.GetStartDay(), 0, 0, 0.0, julian_date_0h);
 
   const double seconds_per_day = 86400.0;
-  double seconds_from_0h = simulation_time.GetStartHour() * 3600.0 + simulation_time.GetStartMinute() * 60.0 +
-                           simulation_time.GetStartSecond() + simulation_time.GetElapsedTime_s();
+  double seconds_from_0h = simulation_time.GetStartHour() * 3600.0 + simulation_time.GetStartMinute() * 60.0 + simulation_time.GetStartSecond() +
+                           simulation_time.GetElapsedTime_s();
   const double elapsed_days = std::floor(seconds_from_0h / seconds_per_day);
   julian_date_0h += elapsed_days;
   seconds_from_0h -= elapsed_days * seconds_per_day;
@@ -140,8 +139,7 @@ void EarthRotation::Update(const SimulationTime& simulation_time) {
     // The actual unit of tTT_century is [century^(i+1)], i is the index of the array
     double terrestrial_time_julian_century[4];
     terrestrial_time_julian_century[0] =
-        (julian_date_0h - kJulianDateJ2000_) / kDayJulianCentury_ +
-        (seconds_from_0h + kDtUt1Utc_) / (seconds_per_day * kDayJulianCentury_);
+        (julian_date_0h - kJulianDateJ2000_) / kDayJulianCentury_ + (seconds_from_0h + kDtUt1Utc_) / (seconds_per_day * kDayJulianCentury_);
     for (int i = 0; i < 3; i++) {
       terrestrial_time_julian_century[i + 1] = terrestrial_time_julian_century[i] * terrestrial_time_julian_century[0];
     }
