@@ -18,20 +18,6 @@
 
 namespace s2e::environment {
 
-namespace {
-
-// Same GMST polynomial as Vallado's gstime(), with Julian centuries evaluated from split time to avoid rounding a full Julian Date.
-double CalcGmstRadFromSplitJulianDate(const double julian_date_0h, const double seconds_from_0h) {
-  const double tut1 = (julian_date_0h - 2451545.0) / 36525.0 + seconds_from_0h / (86400.0 * 36525.0);
-  double temp =
-      -6.2e-6 * tut1 * tut1 * tut1 + 0.093104 * tut1 * tut1 + (876600.0 * 3600 + 8640184.812866) * tut1 + 67310.54841;
-  temp = std::fmod(temp * math::deg_to_rad / 240.0, 2.0 * math::pi);
-  if (temp < 0.0) temp += 2.0 * math::pi;
-  return temp;
-}
-
-}  // namespace
-
 // Default constructor
 EarthRotation::EarthRotation(const EarthRotationMode rotation_mode) : rotation_mode_(rotation_mode) {
   dcm_j2000_to_ecef_ = math::MakeIdentityMatrix<3>();
@@ -124,6 +110,16 @@ void EarthRotation::InitializeParameters() {
     // If the rotation mode is neither Simple nor Full, disable the rotation calculation and make the DCM a unit matrix
     dcm_j2000_to_ecef_ = math::MakeIdentityMatrix<3>();
   }
+}
+
+// Same GMST polynomial as Vallado's gstime(), with Julian centuries evaluated from split time to avoid rounding a full Julian Date.
+double EarthRotation::CalcGmstRadFromSplitJulianDate(const double julian_date_0h, const double seconds_from_0h) {
+  const double tut1 = (julian_date_0h - 2451545.0) / 36525.0 + seconds_from_0h / (86400.0 * 36525.0);
+  double temp =
+      -6.2e-6 * tut1 * tut1 * tut1 + 0.093104 * tut1 * tut1 + (876600.0 * 3600 + 8640184.812866) * tut1 + 67310.54841;
+  temp = std::fmod(temp * math::deg_to_rad / 240.0, 2.0 * math::pi);
+  if (temp < 0.0) temp += 2.0 * math::pi;
+  return temp;
 }
 
 void EarthRotation::Update(const SimulationTime& simulation_time) {
