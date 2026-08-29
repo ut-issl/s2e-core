@@ -244,9 +244,7 @@ class SimulationTime : public logger::ILoggable {
    *@fn GetSecondsFrom0h_s
    *@brief Return seconds from 0h on the simulation start date [sec]
    */
-  inline double GetSecondsFrom0h_s(void) const {
-    return start_hour_ * 3600.0 + start_minute_ * 60.0 + start_sec_ + elapsed_time_sec_;
-  };
+  inline double GetSecondsFrom0h_s(void) const { return start_hour_ * 3600.0 + start_minute_ * 60.0 + start_sec_ + elapsed_time_sec_; };
 
   // Override logger::ILoggable
   /**
