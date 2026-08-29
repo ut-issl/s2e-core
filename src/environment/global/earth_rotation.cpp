@@ -126,8 +126,7 @@ void EarthRotation::Update(const SimulationTime& simulation_time) {
   jday(simulation_time.GetStartYear(), simulation_time.GetStartMonth(), simulation_time.GetStartDay(), 0, 0, 0.0, julian_date_0h);
 
   const double seconds_per_day = 86400.0;
-  double seconds_from_0h = simulation_time.GetStartHour() * 3600.0 + simulation_time.GetStartMinute() * 60.0 + simulation_time.GetStartSecond() +
-                           simulation_time.GetElapsedTime_s();
+  double seconds_from_0h = simulation_time.GetSecondsFrom0h_s();
   const double elapsed_days = std::floor(seconds_from_0h / seconds_per_day);
   julian_date_0h += elapsed_days;
   seconds_from_0h -= elapsed_days * seconds_per_day;
