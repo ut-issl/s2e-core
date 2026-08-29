@@ -113,7 +113,7 @@ void EarthRotation::InitializeParameters() {
 }
 
 // Same GMST polynomial as Vallado's gstime(), with Julian centuries evaluated from split time to avoid rounding a full Julian Date.
-double EarthRotation::CalcGmstRadFromSplitJulianDate(const double julian_date_0h, const double seconds_from_0h) {
+double EarthRotation::CalcGmstFromSplitJulianDate_rad(const double julian_date_0h, const double seconds_from_0h) {
   const double tut1 = (julian_date_0h - 2451545.0) / 36525.0 + seconds_from_0h / (86400.0 * 36525.0);
   double temp = -6.2e-6 * tut1 * tut1 * tut1 + 0.093104 * tut1 * tut1 + (876600.0 * 3600 + 8640184.812866) * tut1 + 67310.54841;
   temp = std::fmod(temp * math::deg_to_rad / 240.0, 2.0 * math::pi);
@@ -131,7 +131,7 @@ void EarthRotation::Update(const SimulationTime& simulation_time) {
   julian_date_0h += elapsed_days;
   seconds_from_0h -= elapsed_days * seconds_per_day;
 
-  double gmst_rad = CalcGmstRadFromSplitJulianDate(julian_date_0h, seconds_from_0h);
+  double gmst_rad = CalcGmstFromSplitJulianDate_rad(julian_date_0h, seconds_from_0h);
 
   if (rotation_mode_ == EarthRotationMode::kFull) {
     // Compute nth power of julian century for terrestrial time.
