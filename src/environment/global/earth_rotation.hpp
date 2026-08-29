@@ -94,8 +94,8 @@ class EarthRotation {
   /**
    * @fn CalcGmstFromSplitJulianDate_rad
    * @brief Calculate GMST from a 0h Julian Date and seconds from 0h
-   * @param [in] julian_date_0h: Julian Date at 0h UT
-   * @param [in] seconds_from_0h: Elapsed seconds from 0h UT
+   * @param [in] julian_date_0h: Julian Date at 0h UTC
+   * @param [in] seconds_from_0h: Elapsed seconds from 0h UTC
    * @return Greenwich Mean Sidereal Time [rad]
    */
   static double CalcGmstFromSplitJulianDate_rad(const double julian_date_0h, const double seconds_from_0h);
