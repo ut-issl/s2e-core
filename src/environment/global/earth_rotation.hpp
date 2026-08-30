@@ -13,6 +13,8 @@
 
 namespace s2e::environment {
 
+class SimulationTime;
+
 /**
  * @enum EarthRotationMode
  * @brief Definition of calculation mode of earth rotation
@@ -39,9 +41,9 @@ class EarthRotation {
   /**
    * @fn Update
    * @brief Update rotation
-   * @param [in] julian_date: Julian date
+   * @param [in] simulation_time: Simulation time information
    */
-  void Update(const double julian_date);
+  void Update(const SimulationTime& simulation_time);
 
   /**
    * @fn GetDcmJ2000ToEcef
@@ -80,7 +82,6 @@ class EarthRotation {
 
   // TODO: Move to general constant values
   const double kDtUt1Utc_ = 32.184;                     //!< Time difference b/w UT1 and UTC [sec]
-  const double kSec2Day_ = 1.0 / (24.0 * 60.0 * 60.0);  //!< Conversion constant from sec to day
   const double kJulianDateJ2000_ = 2451545.0;           //!< Julian date of J2000 [day]
   const double kDayJulianCentury_ = 36525.0;            //!< Conversion constant from Julian century to day [day/century]
 
@@ -89,6 +90,15 @@ class EarthRotation {
    * @brief Initialize parameters
    */
   void InitializeParameters();
+
+  /**
+   * @fn CalcGmstFromSplitJulianDate_rad
+   * @brief Calculate GMST from a 0h Julian Date and seconds from 0h
+   * @param [in] julian_date_0h: Julian Date at 0h UTC
+   * @param [in] seconds_from_0h: Elapsed seconds from 0h UTC
+   * @return Greenwich Mean Sidereal Time [rad]
+   */
+  static double CalcGmstFromSplitJulianDate_rad(const double julian_date_0h, const double seconds_from_0h);
 
   /**
    * @fn AxialRotation

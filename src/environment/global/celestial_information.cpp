@@ -127,7 +127,7 @@ void CelestialInformation::UpdateAllObjectsInformation(const SimulationTime& sim
   }
 
   // Update earth rotation
-  earth_rotation_->Update(simulation_time.GetCurrentTime_jd());
+  earth_rotation_->Update(simulation_time);
   // Update moon rotation
   moon_rotation_->Update(simulation_time);
 }

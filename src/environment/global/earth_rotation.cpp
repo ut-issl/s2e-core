@@ -8,12 +8,14 @@
 
 #include "earth_rotation.hpp"
 
+#include <cmath>
 #include <iostream>
 #include <sstream>
 
+#include "environment/global/physical_constants.hpp"
 #include "math_physics/math/constants.hpp"
-#include "math_physics/orbit/sgp4/sgp4ext.h"   // for jday()
-#include "math_physics/orbit/sgp4/sgp4unit.h"  // for gstime()
+#include "math_physics/orbit/sgp4/sgp4ext.h"  // for jday()
+#include "simulation_time.hpp"
 
 namespace s2e::environment {
 
@@ -111,18 +113,32 @@ void EarthRotation::InitializeParameters() {
   }
 }
 
-void EarthRotation::Update(const double julian_date) {
-  double gmst_rad = gstime(julian_date);  // It is a bit different with 長沢(Nagasawa)'s algorithm. TODO: Check the correctness
+// Same GMST polynomial as Vallado's gstime(), with Julian centuries evaluated from split time to avoid rounding a full Julian Date.
+double EarthRotation::CalcGmstFromSplitJulianDate_rad(const double julian_date_0h, const double seconds_from_0h) {
+  const double tut1 = (julian_date_0h - 2451545.0) / 36525.0 + seconds_from_0h / (seconds_per_day * 36525.0);
+  double temp = -6.2e-6 * tut1 * tut1 * tut1 + 0.093104 * tut1 * tut1 + (876600.0 * 3600 + 8640184.812866) * tut1 + 67310.54841;
+  temp = std::fmod(temp * math::deg_to_rad / 240.0, 2.0 * math::pi);
+  if (temp < 0.0) temp += 2.0 * math::pi;
+  return temp;
+}
+
+void EarthRotation::Update(const SimulationTime& simulation_time) {
+  double julian_date_0h;
+  jday(simulation_time.GetStartYear(), simulation_time.GetStartMonth(), simulation_time.GetStartDay(), 0, 0, 0.0, julian_date_0h);
+
+  double seconds_from_0h = simulation_time.GetSecondsFrom0h_s();
+  const double elapsed_days = std::floor(seconds_from_0h / seconds_per_day);
+  julian_date_0h += elapsed_days;
+  seconds_from_0h -= elapsed_days * seconds_per_day;
+
+  double gmst_rad = CalcGmstFromSplitJulianDate_rad(julian_date_0h, seconds_from_0h);
 
   if (rotation_mode_ == EarthRotationMode::kFull) {
-    // Compute Julian date for terrestrial time
-    double terrestrial_time_julian_day =
-        julian_date + kDtUt1Utc_ * kSec2Day_;  // TODO: Check the correctness. Problem is that S2E doesn't have Gregorian calendar.
-
     // Compute nth power of julian century for terrestrial time.
     // The actual unit of tTT_century is [century^(i+1)], i is the index of the array
     double terrestrial_time_julian_century[4];
-    terrestrial_time_julian_century[0] = (terrestrial_time_julian_day - kJulianDateJ2000_) / kDayJulianCentury_;
+    terrestrial_time_julian_century[0] =
+        (julian_date_0h - kJulianDateJ2000_) / kDayJulianCentury_ + (seconds_from_0h + kDtUt1Utc_) / (seconds_per_day * kDayJulianCentury_);
     for (int i = 0; i < 3; i++) {
       terrestrial_time_julian_century[i + 1] = terrestrial_time_julian_century[i] * terrestrial_time_julian_century[0];
     }
