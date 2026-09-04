@@ -20,6 +20,7 @@ add_library(${PROJECT_NAME} OBJECT
   ground_station/ground_station.cpp
   
   hils/hils_port_manager.cpp
+  hils/skydel_hil.cpp
 
   multiple_spacecraft/inter_spacecraft_communication.cpp
   multiple_spacecraft/relative_information.cpp
