@@ -70,6 +70,11 @@ class GpsTime {
    * @return DateTime as UTC including leap seconds
    */
   inline DateTime GetDateTimeAsUtc() const { return epoch_time_ - kLeapSecondAheadFromUtc_; }
+  /**
+   * @fn GetLeapSecondAheadFromUtc
+   * @return Leap second offset from UTC to GPS time
+   */
+  inline static EpochTime GetLeapSecondAheadFromUtc() { return kLeapSecondAheadFromUtc_; }
 
  private:
   size_t week_;                      //!< GPS week (week = 0 at 6th Jan. 1980)
