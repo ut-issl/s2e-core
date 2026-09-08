@@ -8,6 +8,10 @@
 
 #include <simulation/case/simulation_case.hpp>
 
+#ifdef USE_SKYDEL
+#include <simulation/hils/skydel_hil.hpp>
+#endif
+
 #include "../ground_station/sample_ground_station.hpp"
 #include "../spacecraft/sample_spacecraft.hpp"
 
@@ -45,6 +49,9 @@ class SampleCase : public simulation::SimulationCase {
  private:
   SampleSpacecraft* sample_spacecraft_;         //!< Instance of spacecraft
   SampleGroundStation* sample_ground_station_;  //!< Instance of ground station
+#ifdef USE_SKYDEL
+  simulation::SkydelHil skydel_hil_;            //!< Skydel HIL interface
+#endif
 
   /**
    * @fn InitializeTargetObjects

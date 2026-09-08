@@ -5,6 +5,10 @@
 
 #include "sample_case.hpp"
 
+#ifdef USE_SKYDEL
+#include <vector>
+#endif
+
 namespace s2e::sample {
 
 SampleCase::SampleCase(std::string initialise_base_file) : simulation::SimulationCase(initialise_base_file) {}
@@ -25,6 +29,15 @@ void SampleCase::InitializeTargetObjects() {
   // Register the log output
   sample_spacecraft_->LogSetup(*(simulation_configuration_.main_logger_));
   sample_ground_station_->LogSetup(*(simulation_configuration_.main_logger_));
+
+#ifdef USE_SKYDEL
+  skydel_hil_.Initialize(simulation_configuration_.initialize_base_file_name_,
+                         simulation_configuration_.number_of_simulated_spacecraft_);
+  if (skydel_hil_.IsEnabled()) {
+    const std::vector<const s2e::spacecraft::Spacecraft*> spacecraft_list{sample_spacecraft_};
+    skydel_hil_.StreamInitialSamples(spacecraft_list, global_environment_->GetSimulationTime());
+  }
+#endif
 }
 
 void SampleCase::UpdateTargetObjects() {
@@ -32,6 +45,13 @@ void SampleCase::UpdateTargetObjects() {
   sample_spacecraft_->Update(&(global_environment_->GetSimulationTime()));
   // Ground Station Update
   sample_ground_station_->Update(global_environment_->GetCelestialInformation().GetEarthRotation(), *sample_spacecraft_);
+
+#ifdef USE_SKYDEL
+  if (skydel_hil_.IsEnabled()) {
+    const std::vector<const s2e::spacecraft::Spacecraft*> spacecraft_list{sample_spacecraft_};
+    skydel_hil_.StreamStepSamples(spacecraft_list, global_environment_->GetSimulationTime());
+  }
+#endif
 }
 
 std::string SampleCase::GetLogHeader() const {

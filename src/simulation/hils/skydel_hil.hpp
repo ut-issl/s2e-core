@@ -72,14 +72,18 @@ class SkydelHil {
  private:
   bool is_enabled_ = false;
   std::string skydel_host_;
-  int output_period_ms_ = 10;
-  int sync_duration_ms_ = 2000;
-  int hil_tjoin_ms_ = 200;
-  int engine_latency_ms_ = 40;
-  int sync_port_ = 4567;
+  bool enable_log_raw_{};
+  bool enable_log_hil_input_{};
+  bool enable_hil_streaming_check_{};
+  int output_period_ms_{};
+  int sync_duration_ms_{};
+  int hil_tjoin_ms_{};
+  int engine_latency_ms_{};
+  int sync_port_{};
+  int warning_check_period_ms_ = 0;
   double simulation_start_timestamp_ms_ = 0.0;
   int64_t last_streamed_elapsed_ms_ = -1;
-  int64_t next_warning_elapsed_ms_ = 1000;
+  int64_t next_warning_elapsed_ms_ = 0;
 
   std::vector<unsigned int> spacecraft_ids_;
   std::vector<unsigned int> instance_ids_;

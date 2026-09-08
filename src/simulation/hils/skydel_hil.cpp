@@ -6,8 +6,10 @@
 #include "skydel_hil.hpp"
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <cstdint>
+#include <exception>
 #include <environment/global/physical_constants.hpp>
 #include <environment/global/simulation_time.hpp>
 #include <iostream>
@@ -15,11 +17,13 @@
 #include <math_physics/math/quaternion.hpp>
 #include <math_physics/time_system/date_time_format.hpp>
 #include <math_physics/time_system/epoch_time.hpp>
+#include <math_physics/time_system/gps_time.hpp>
 #include <set>
 #include <setting_file_reader/initialize_file_access.hpp>
 #include <simulation/spacecraft/spacecraft.hpp>
 #include <stdexcept>
 #include <string>
+#include <thread>
 #include <vector>
 
 #include <all_commands.h>
@@ -86,14 +90,20 @@ void SkydelHil::Close() {
   if (!simulators_.empty() && simulators_.front()) {
     try {
       simulators_.front()->stop();
+    } catch (const std::exception& e) {
+      std::cerr << "Warning: Failed to stop Skydel simulation: " << e.what() << std::endl;
     } catch (...) {
+      std::cerr << "Warning: Failed to stop Skydel simulation: unknown exception" << std::endl;
     }
   }
   for (auto& simulator : simulators_) {
     if (!simulator) continue;
     try {
       simulator->disconnect();
+    } catch (const std::exception& e) {
+      std::cerr << "Warning: Failed to disconnect from Skydel instance: " << e.what() << std::endl;
     } catch (...) {
+      std::cerr << "Warning: Failed to disconnect from Skydel instance: unknown exception" << std::endl;
     }
   }
 
@@ -103,7 +113,7 @@ void SkydelHil::Close() {
   config_paths_.clear();
   simulation_start_timestamp_ms_ = 0.0;
   last_streamed_elapsed_ms_ = -1;
-  next_warning_elapsed_ms_ = 1000;
+  next_warning_elapsed_ms_ = 0;
   is_enabled_ = false;
 }
 
@@ -120,19 +130,25 @@ void SkydelHil::LoadConfiguration(const std::string& base_ini_path, const unsign
   if (!is_enabled_) return;
 
   skydel_host_ = hil_ini.ReadString("SKYDEL_HIL", "skydel_host");
+  enable_log_raw_ = hil_ini.ReadEnable("SKYDEL_HIL", "enable_log_raw");
+  enable_log_hil_input_ = hil_ini.ReadEnable("SKYDEL_HIL", "enable_log_hil_input");
+  enable_hil_streaming_check_ = hil_ini.ReadEnable("SKYDEL_HIL", "enable_hil_streaming_check");
   output_period_ms_ = hil_ini.ReadInt("SKYDEL_HIL", "output_period_ms");
   sync_duration_ms_ = hil_ini.ReadInt("SKYDEL_HIL", "sync_duration_ms");
   hil_tjoin_ms_ = hil_ini.ReadInt("SKYDEL_HIL", "hil_tjoin_ms");
   engine_latency_ms_ = hil_ini.ReadInt("SKYDEL_HIL", "engine_latency_ms");
   sync_port_ = hil_ini.ReadInt("SKYDEL_HIL", "sync_port");
+  warning_check_period_ms_ = hil_ini.ReadInt("SKYDEL_HIL", "warning_check_period_ms");
   const int number_of_vehicles = hil_ini.ReadInt("SKYDEL_HIL", "number_of_vehicles");
 
-  if (output_period_ms_ <= 0 || sync_duration_ms_ <= 0 || hil_tjoin_ms_ <= 0 || engine_latency_ms_ <= 0 || sync_port_ <= 0) {
+  if (output_period_ms_ <= 0 || sync_duration_ms_ <= 0 || hil_tjoin_ms_ <= 0 || engine_latency_ms_ <= 0 || sync_port_ <= 0 ||
+      warning_check_period_ms_ <= 0) {
     throw std::runtime_error("Skydel HIL timing and synchronization parameters must be positive");
   }
   if (number_of_vehicles <= 0) {
     throw std::runtime_error("Skydel HIL requires at least one vehicle");
   }
+  next_warning_elapsed_ms_ = warning_check_period_ms_;
 
   spacecraft_ids_.reserve(static_cast<size_t>(number_of_vehicles));
   instance_ids_.reserve(static_cast<size_t>(number_of_vehicles));
@@ -189,7 +205,7 @@ void SkydelHil::SetupSimulators(const environment::SimulationTime& simulation_ti
       static_cast<size_t>(simulation_time.GetStartDay()), static_cast<size_t>(simulation_time.GetStartHour()),
       static_cast<size_t>(simulation_time.GetStartMinute()), start_second);
   const s2e::time_system::DateTime gps_start_time(
-      s2e::time_system::EpochTime(utc_start_time) + s2e::time_system::GetLeapSecondAheadFromUtc());
+      s2e::time_system::EpochTime(utc_start_time) + s2e::time_system::GpsTime::GetLeapSecondAheadFromUtc());
   const Sdx::DateTime start_time(static_cast<int>(gps_start_time.GetYear()), static_cast<int>(gps_start_time.GetMonth()),
                                  static_cast<int>(gps_start_time.GetDay()), static_cast<int>(gps_start_time.GetHour()),
                                  static_cast<int>(gps_start_time.GetMinute()), static_cast<int>(gps_start_time.GetSecond()));
@@ -203,9 +219,12 @@ void SkydelHil::SetupSimulators(const environment::SimulationTime& simulation_ti
       throw std::runtime_error("Failed to connect to Skydel instance " + std::to_string(instance_ids_[index]));
     }
 
-    if (Sdx::Cmd::GetEngineLatencyResult::dynamicCast(simulator->call(Sdx::Cmd::GetEngineLatency::create()))->latency() != engine_latency_ms_) {
+    if (Sdx::Cmd::GetEngineLatencyResult::dynamicCast(simulator->call(Sdx::Cmd::GetEngineLatency::create()))->latency() !=
+        engine_latency_ms_) {
       throw std::runtime_error("Unexpected Skydel engine latency");
     }
+
+    // Check the streaming buffer preference, do not change it from its default value
     if (Sdx::Cmd::GetStreamingBufferResult::dynamicCast(simulator->call(Sdx::Cmd::GetStreamingBuffer::create()))->size() !=
         kSkydelStreamingBufferSizeMs) {
       throw std::runtime_error("Unexpected Skydel streaming buffer size");
@@ -217,12 +236,10 @@ void SkydelHil::SetupSimulators(const environment::SimulationTime& simulation_ti
     simulator->call(Sdx::Cmd::SetStartTimeMode::create("Custom"));
     simulator->call(Sdx::Cmd::SetGpsStartTime::create(start_time));
     simulator->call(Sdx::Cmd::SetDuration::create(duration_sec));
-    simulator->call(Sdx::Cmd::EnableLogRaw::create(false));
-    simulator->call(Sdx::Cmd::EnableLogHILInput::create(true));
+    simulator->call(Sdx::Cmd::EnableLogRaw::create(enable_log_raw_));
+    simulator->call(Sdx::Cmd::EnableLogHILInput::create(enable_log_hil_input_));
 
-    // We check extrapolation explicitly at 1 Hz below, so do not perform the
-    // synchronous check after every HIL UDP packet.
-    simulator->setHilStreamingCheckEnabled(false);
+    simulator->setHilStreamingCheckEnabled(enable_hil_streaming_check_);
     simulators_.push_back(std::move(simulator));
   }
 
@@ -280,7 +297,7 @@ void SkydelHil::StreamSamples(const std::vector<const spacecraft::Spacecraft*>& 
     for (auto& simulator : simulators_) {
       DisplayHilExtrapolationWarnings(*simulator);
     }
-    next_warning_elapsed_ms_ = elapsed_time_ms + 1000;
+    next_warning_elapsed_ms_ = elapsed_time_ms + warning_check_period_ms_;
   }
 
   last_streamed_elapsed_ms_ = elapsed_time_ms;
@@ -302,13 +319,15 @@ void SkydelHil::PushSample(const size_t index, const spacecraft::Spacecraft& spa
   const auto roll_pitch_yaw_rad = s2e::math::Quaternion::ConvertFromDcm(dcm_ned_to_b).Normalize().ConvertToEuler();
 
   const auto angular_velocity_b_rad_s = dynamics.GetAttitude().GetAngularVelocity_b_rad_s();
+  const auto angular_acceleration_b_rad_s2 = dynamics.GetAttitude().GetAngularAcceleration_b_rad_s2();
 
   const Sdx::Ecef position(position_ecef_m[0], position_ecef_m[1], position_ecef_m[2]);
   const Sdx::Attitude attitude(roll_pitch_yaw_rad[2], roll_pitch_yaw_rad[1], roll_pitch_yaw_rad[0]);
   const Sdx::Ecef velocity(velocity_ecef_m_s[0], velocity_ecef_m_s[1], velocity_ecef_m_s[2]);
   const Sdx::Attitude angular_velocity(angular_velocity_b_rad_s[2], angular_velocity_b_rad_s[1], angular_velocity_b_rad_s[0]);
   const Sdx::Ecef acceleration(acceleration_ecef_m_s2[0], acceleration_ecef_m_s2[1], acceleration_ecef_m_s2[2]);
-  const Sdx::Attitude angular_acceleration(0.0, 0.0, 0.0);
+  const Sdx::Attitude angular_acceleration(angular_acceleration_b_rad_s2[2], angular_acceleration_b_rad_s2[1],
+                                           angular_acceleration_b_rad_s2[0]);
 
   if (!simulators_[index]->pushEcefNed(static_cast<double>(elapsed_time_ms), position, attitude, velocity, angular_velocity, acceleration,
                                        angular_acceleration)) {
@@ -316,7 +335,6 @@ void SkydelHil::PushSample(const size_t index, const spacecraft::Spacecraft& spa
   }
 }
 
-// Private functions
 math::Matrix<3, 3> SkydelHil::CalcDcmEcefToNed(const geodesy::GeodeticPosition& geodetic_position) const {
   // S2E local topographic frame is ENU, while Skydel pushEcefNed uses NED.
   const auto dcm_ecef_to_enu = geodetic_position.GetQuaternionXcxfToLtc().ConvertToDcm();
@@ -341,8 +359,8 @@ math::Vector<3> SkydelHil::CalcTotalAccelerationEcef_m_s2(const spacecraft::Spac
   // Add the acceleration due to disturbances and installed components
   const math::Vector<3> force_b_N = disturbances.GetForce_b_N() + components.GenerateForce_b_N();
   const double mass_kg = spacecraft.GetStructure().GetKinematicsParameters().GetMass_kg();
-  math::Vector<3> force_i_N = dynamics.GetAttitude().GetQuaternion_i2b().InverseFrameConversion(force_b_N);
-  acceleration_i_m_s2 += force_i_N / mass_kg;
+  const math::Vector<3> force_i_N = dynamics.GetAttitude().GetQuaternion_i2b().InverseFrameConversion(force_b_N);
+  acceleration_i_m_s2 += (1.0 / mass_kg) * force_i_N;
 
   // Add the central gravity acceleration
   const math::Vector<3> position_i_m = orbit.GetPosition_i_m();
