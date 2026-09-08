@@ -11,7 +11,8 @@ project(S2E
 option(USE_HILS "Use HILS" OFF)
 option(USE_C2A "Use C2A" OFF)
 option(USE_C2A_COMMAND_SENDER "Use command sender to C2A" OFF)
-option(BUILD_64BIT "Build 64bit" OFF)
+option(USE_SKYDEL "Use Skydel SDX remote API" OFF)
+option(BUILD_64BIT "Build 64bit" ON)
 option(GOOGLE_TEST "Execute GoogleTest" OFF)
 
 # Mac user setting
@@ -56,6 +57,32 @@ if(NOT DEFINED CORE_DIR_FROM_EXE)
   set(CORE_DIR_FROM_EXE ../../../s2e-core)
 endif()
 
+## options to use Skydel
+if(USE_SKYDEL)
+  set(SKYDEL_SDX_API_DIR "$ENV{HOME}/Documents/Skydel-SDX/API/Cpp/sdx_api" CACHE PATH "Path to the Skydel SDX C++ API")
+  if(NOT EXISTS "${SKYDEL_SDX_API_DIR}/remote_simulator.h")
+    message(FATAL_ERROR "Skydel SDX C++ API not found: ${SKYDEL_SDX_API_DIR}")
+  endif()
+
+  file(GLOB_RECURSE SKYDEL_SDX_API_SOURCE CONFIGURE_DEPENDS
+    ${SKYDEL_SDX_API_DIR}/*.cpp
+  )
+  add_library(SKYDEL_SDX_API STATIC ${SKYDEL_SDX_API_SOURCE})
+  target_include_directories(SKYDEL_SDX_API PUBLIC ${SKYDEL_SDX_API_DIR})
+  if(UNIX AND NOT BUILD_64BIT)
+    target_compile_options(SKYDEL_SDX_API PRIVATE -m32)
+    target_link_options(SKYDEL_SDX_API PRIVATE -m32)
+  endif()
+  if(WIN32)
+    target_compile_definitions(SKYDEL_SDX_API PRIVATE GUID_WINDOWS=1)
+    target_link_libraries(SKYDEL_SDX_API PUBLIC Ole32 ws2_32)
+  else()
+    target_compile_definitions(SKYDEL_SDX_API PRIVATE GUID_LIBUUID=1)
+    target_link_libraries(SKYDEL_SDX_API PUBLIC uuid)
+    target_compile_options(SKYDEL_SDX_API PRIVATE -Wno-old-style-cast -Wno-zero-as-null-pointer-constant)
+  endif()
+endif()
+
 ## options to use C2A
 if(USE_C2A)
   option(BUILD_64BIT OFF) # force to build with 32bit
@@ -98,6 +125,11 @@ add_subdirectory(${S2E_CORE_DIR}/src/setting_file_reader setting_file_reader)
 add_subdirectory(${S2E_CORE_DIR}/src/logger logger)
 add_subdirectory(${S2E_CORE_DIR}/src/utilities utilities)
 add_subdirectory(${S2E_CORE_DIR}/ExtLibraries/inih ExtLibraries/inih)
+
+if(USE_SKYDEL)
+  target_compile_definitions(SIMULATION PRIVATE USE_SKYDEL)
+  target_include_directories(SIMULATION PRIVATE ${SKYDEL_SDX_API_DIR})
+endif()
 
 set(SOURCE_FILES
   src/s2e.cpp
@@ -198,6 +230,10 @@ add_library(lib${PROJECT_NAME}
 )
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
+if(USE_SKYDEL)
+  target_compile_definitions(${PROJECT_NAME} PRIVATE USE_SKYDEL)
+endif()
+
 target_link_libraries(${PROJECT_NAME}
   lib${PROJECT_NAME}
 
@@ -209,6 +245,10 @@ target_link_libraries(${PROJECT_NAME}
 ## C2A integration
 if(USE_C2A)
   target_link_libraries(${PROJECT_NAME} C2A)
+endif()
+
+if(USE_SKYDEL)
+  target_link_libraries(${PROJECT_NAME} SKYDEL_SDX_API)
 endif()
 
 ## HILS
