@@ -11,6 +11,7 @@ namespace s2e::dynamics::attitude {
 Attitude::Attitude(const math::Matrix<3, 3>& inertia_tensor_kgm2, const std::string& simulation_object_name)
     : SimulationObject(simulation_object_name), inertia_tensor_kgm2_(inertia_tensor_kgm2) {
   angular_velocity_b_rad_s_ = math::Vector<3>(0.0);
+  angular_acceleration_b_rad_s2_ = math::Vector<3>(0.0);
   quaternion_i2b_ = math::Quaternion(0.0, 0.0, 0.0, 1.0);
   torque_b_Nm_ = math::Vector<3>(0.0);
   angular_momentum_spacecraft_b_Nms_ = math::Vector<3>(0.0);

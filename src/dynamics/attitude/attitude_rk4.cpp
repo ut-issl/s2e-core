@@ -23,7 +23,9 @@ AttitudeRk4::AttitudeRk4(const math::Vector<3>& angular_velocity_b_rad_s, const 
   angular_momentum_reaction_wheel_b_Nms_ = math::Vector<3>(0.0);
   previous_inertia_tensor_kgm2_ = inertia_tensor_kgm2_;
   inverse_inertia_tensor_ = CalcInverseMatrix(inertia_tensor_kgm2_);
+  torque_inertia_tensor_change_b_Nm_ = math::Vector<3>(0.0);
   CalcAngularMomentum();
+  angular_acceleration_b_rad_s2_ = CalcAngularAcceleration(angular_velocity_b_rad_s_);
 }
 
 AttitudeRk4::~AttitudeRk4() {}
@@ -35,7 +37,9 @@ void AttitudeRk4::SetParameters(const simulation::MonteCarloSimulationExecutor& 
   // TODO: Consider the following calculation is needed here?
   current_propagation_time_s_ = 0.0;
   angular_momentum_reaction_wheel_b_Nms_ = math::Vector<3>(0.0);  //!< Consider how to handle this variable
+  torque_inertia_tensor_change_b_Nm_ = math::Vector<3>(0.0);
   CalcAngularMomentum();
+  angular_acceleration_b_rad_s2_ = CalcAngularAcceleration(angular_velocity_b_rad_s_);
 }
 
 void AttitudeRk4::Propagate(const double end_time_s) {
@@ -50,6 +54,8 @@ void AttitudeRk4::Propagate(const double end_time_s) {
     current_propagation_time_s_ += propagation_step_s_;
   }
   RungeKuttaOneStep(current_propagation_time_s_, end_time_s - current_propagation_time_s_);
+
+  angular_acceleration_b_rad_s2_ = CalcAngularAcceleration(angular_velocity_b_rad_s_);
 
   // Update information
   current_propagation_time_s_ = end_time_s;
@@ -66,9 +72,7 @@ math::Vector<7> AttitudeRk4::AttitudeDynamicsAndKinematics(math::Vector<7> x, do
   for (int i = 0; i < 3; i++) {
     omega_b[i] = x[i];
   }
-  math::Vector<3> angular_momentum_total_b_Nms = (previous_inertia_tensor_kgm2_ * omega_b) + angular_momentum_reaction_wheel_b_Nms_;
-  math::Vector<3> rhs =
-      inverse_inertia_tensor_ * (torque_b_Nm_ - math::OuterProduct(omega_b, angular_momentum_total_b_Nms) - torque_inertia_tensor_change_b_Nm_);
+  const math::Vector<3> rhs = CalcAngularAcceleration(omega_b);
 
   for (int i = 0; i < 3; ++i) {
     dxdt[i] = rhs[i];
@@ -120,6 +124,13 @@ void AttitudeRk4::RungeKuttaOneStep(double t, double dt) {
     quaternion_i2b_[i] = next_x[i + 3];
   }
   quaternion_i2b_.Normalize();
+}
+
+math::Vector<3> AttitudeRk4::CalcAngularAcceleration(const math::Vector<3>& angular_velocity_b_rad_s) const {
+  const math::Vector<3> angular_momentum_total_b_Nms =
+      (previous_inertia_tensor_kgm2_ * angular_velocity_b_rad_s) + angular_momentum_reaction_wheel_b_Nms_;
+  return inverse_inertia_tensor_ *
+         (torque_b_Nm_ - math::OuterProduct(angular_velocity_b_rad_s, angular_momentum_total_b_Nms) - torque_inertia_tensor_change_b_Nm_);
 }
 
 }  // namespace s2e::dynamics::attitude

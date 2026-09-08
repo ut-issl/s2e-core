@@ -44,6 +44,11 @@ class Attitude : public logger::ILoggable, public simulation::SimulationObject {
    */
   inline math::Vector<3> GetAngularVelocity_b_rad_s() const { return angular_velocity_b_rad_s_; }
   /**
+   * @fn GetAngularAcceleration_b_rad_s2
+   * @brief Return angular acceleration of spacecraft body-fixed frame with respect to the inertial frame [rad/s^2]
+   */
+  inline math::Vector<3> GetAngularAcceleration_b_rad_s2() const { return angular_acceleration_b_rad_s2_; }
+  /**
    * @fn GetQuaternion_i2b
    * @brief Return attitude quaternion from the inertial frame to the body fixed frame
    */
@@ -119,6 +124,7 @@ class Attitude : public logger::ILoggable, public simulation::SimulationObject {
   bool is_calc_enabled_ = true;                    //!< Calculation flag
   double propagation_step_s_;                      //!< Propagation step [sec]
   math::Vector<3> angular_velocity_b_rad_s_;       //!< Angular velocity of spacecraft body fixed frame with respect to the inertial frame [rad/s]
+  math::Vector<3> angular_acceleration_b_rad_s2_;  //!< Angular acceleration of spacecraft body fixed frame [rad/s^2]
   math::Quaternion quaternion_i2b_;                //!< Attitude quaternion from the inertial frame to the body fixed frame
   math::Vector<3> torque_b_Nm_;                    //!< Torque in the body fixed frame [Nm]
   const math::Matrix<3, 3>& inertia_tensor_kgm2_;  //!< Inertia tensor of the spacecraft [kg m^2]

@@ -68,6 +68,14 @@ class AttitudeRk4 : public Attitude {
    * @param [in] dt: Step width [sec]
    */
   void RungeKuttaOneStep(double t, double dt);
+
+  /**
+   * @fn CalcAngularAcceleration
+   * @brief Calculate angular acceleration from the current angular velocity
+   * @param [in] angular_velocity_b_rad_s: Angular velocity [rad/s]
+   * @return Angular acceleration [rad/s^2]
+   */
+  math::Vector<3> CalcAngularAcceleration(const math::Vector<3>& angular_velocity_b_rad_s) const;
 };
 
 }  // namespace s2e::dynamics::attitude
