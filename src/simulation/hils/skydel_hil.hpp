@@ -73,6 +73,7 @@ class SkydelHil {
   bool is_enabled_ = false;
   std::string skydel_host_;
   bool enable_log_raw_{};
+  int raw_rate_hz_{};
   bool enable_log_hil_input_{};
   bool enable_hil_streaming_check_{};
   int output_period_ms_{};

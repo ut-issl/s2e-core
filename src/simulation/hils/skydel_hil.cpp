@@ -131,6 +131,7 @@ void SkydelHil::LoadConfiguration(const std::string& base_ini_path, const unsign
 
   skydel_host_ = hil_ini.ReadString("SKYDEL_HIL", "skydel_host");
   enable_log_raw_ = hil_ini.ReadEnable("SKYDEL_HIL", "enable_log_raw");
+  raw_rate_hz_ = hil_ini.ReadInt("SKYDEL_HIL", "raw_rate_hz");
   enable_log_hil_input_ = hil_ini.ReadEnable("SKYDEL_HIL", "enable_log_hil_input");
   enable_hil_streaming_check_ = hil_ini.ReadEnable("SKYDEL_HIL", "enable_hil_streaming_check");
   output_period_ms_ = hil_ini.ReadInt("SKYDEL_HIL", "output_period_ms");
@@ -144,6 +145,9 @@ void SkydelHil::LoadConfiguration(const std::string& base_ini_path, const unsign
   if (output_period_ms_ <= 0 || sync_duration_ms_ <= 0 || hil_tjoin_ms_ <= 0 || engine_latency_ms_ <= 0 || sync_port_ <= 0 ||
       warning_check_period_ms_ <= 0) {
     throw std::runtime_error("Skydel HIL timing and synchronization parameters must be positive");
+  }
+  if (raw_rate_hz_ != 10 && raw_rate_hz_ != 100 && raw_rate_hz_ != 1000) {
+    throw std::runtime_error("Skydel HIL raw_rate_hz must be 10, 100, or 1000");
   }
   if (number_of_vehicles <= 0) {
     throw std::runtime_error("Skydel HIL requires at least one vehicle");
@@ -237,6 +241,7 @@ void SkydelHil::SetupSimulators(const environment::SimulationTime& simulation_ti
     simulator->call(Sdx::Cmd::SetGpsStartTime::create(start_time));
     simulator->call(Sdx::Cmd::SetDuration::create(duration_sec));
     simulator->call(Sdx::Cmd::EnableLogRaw::create(enable_log_raw_));
+    simulator->call(Sdx::Cmd::SetLogRawRate::create(raw_rate_hz_));
     simulator->call(Sdx::Cmd::EnableLogHILInput::create(enable_log_hil_input_));
 
     simulator->setHilStreamingCheckEnabled(enable_hil_streaming_check_);
