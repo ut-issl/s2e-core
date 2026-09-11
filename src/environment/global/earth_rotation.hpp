@@ -52,6 +52,18 @@ class EarthRotation {
   inline const math::Matrix<3, 3> GetDcmJ2000ToEcef() const { return dcm_j2000_to_ecef_; };
 
   /**
+   * @fn GetDcmJ2000ToEcefDerivative
+   * @brief Return the time derivative of the DCM between J2000 inertial frame and the Earth Centered Earth Fixed frame
+   */
+  inline const math::Matrix<3, 3> GetDcmJ2000ToEcefDerivative() const { return dcm_dot_j2000_to_ecef_; };
+
+  /**
+   * @fn GetDcmJ2000ToEcefSecondDerivative
+   * @brief Return the second time derivative of the DCM between J2000 inertial frame and the Earth Centered Earth Fixed frame
+   */
+  inline const math::Matrix<3, 3> GetDcmJ2000ToEcefSecondDerivative() const { return dcm_ddot_j2000_to_ecef_; };
+
+  /**
    * @fn GetDcmTemeToEcef
    * @brief Return the DCM between TEME (Inertial frame used in SGP4) and the Earth Centered Earth Fixed frame
    */
@@ -62,6 +74,8 @@ class EarthRotation {
   double d_epsilon_rad_;                  //!< Nutation in longitude [rad]
   double epsilon_rad_;                    //!< Mean obliquity of the ecliptic [rad]
   math::Matrix<3, 3> dcm_j2000_to_ecef_;  //!< Direction Cosine Matrix J2000 to ECEF
+  math::Matrix<3, 3> dcm_dot_j2000_to_ecef_;  //!< Time derivative of the DCM J2000 to ECEF [1/s]
+  math::Matrix<3, 3> dcm_ddot_j2000_to_ecef_;  //!< Second time derivative of the DCM J2000 to ECEF [1/s2]
   math::Matrix<3, 3> dcm_teme_to_ecef_;   //!< Direction Cosine Matrix TEME to ECEF
   EarthRotationMode rotation_mode_;       //!< Designation of dynamics model
 
@@ -99,6 +113,15 @@ class EarthRotation {
    * @return Greenwich Mean Sidereal Time [rad]
    */
   static double CalcGmstFromSplitJulianDate_rad(const double julian_date_0h, const double seconds_from_0h);
+
+  /**
+   * @fn CalcDcmJ2000ToEcefAtTime
+   * @brief Calculate the DCM at the specified time
+   * @param [in] julian_date_0h: Julian Date at 0h [day]
+   * @param [in] seconds_from_0h: Elapsed seconds from 0h [sec]
+   * @return Direction Cosine Matrix J2000 to ECEF
+   */
+  math::Matrix<3, 3> CalcDcmJ2000ToEcefAtTime(const double julian_date_0h, const double seconds_from_0h);
 
   /**
    * @fn AxialRotation

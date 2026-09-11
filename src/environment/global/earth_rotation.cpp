@@ -22,6 +22,8 @@ namespace s2e::environment {
 // Default constructor
 EarthRotation::EarthRotation(const EarthRotationMode rotation_mode) : rotation_mode_(rotation_mode) {
   dcm_j2000_to_ecef_ = math::MakeIdentityMatrix<3>();
+  dcm_dot_j2000_to_ecef_ = math::Matrix<3, 3>(0.0);
+  dcm_ddot_j2000_to_ecef_ = math::Matrix<3, 3>(0.0);
   dcm_teme_to_ecef_ = dcm_j2000_to_ecef_;
   InitializeParameters();
 }
@@ -114,31 +116,80 @@ void EarthRotation::InitializeParameters() {
 }
 
 // Same GMST polynomial as Vallado's gstime(), with Julian centuries evaluated from split time to avoid rounding a full Julian Date.
-double EarthRotation::CalcGmstFromSplitJulianDate_rad(const double julian_date_0h, const double seconds_from_0h) {
-  const double tut1 = (julian_date_0h - 2451545.0) / 36525.0 + seconds_from_0h / (seconds_per_day * 36525.0);
-  double temp = -6.2e-6 * tut1 * tut1 * tut1 + 0.093104 * tut1 * tut1 + (876600.0 * 3600 + 8640184.812866) * tut1 + 67310.54841;
-  temp = std::fmod(temp * math::deg_to_rad / 240.0, 2.0 * math::pi);
-  if (temp < 0.0) temp += 2.0 * math::pi;
-  return temp;
+double EarthRotation::CalcGmstFromSplitJulianDate_rad(
+    const double julian_date_0h,
+    const double seconds_from_0h) {
+
+  constexpr double kJ2000 = 2451545.0;
+  constexpr double kDaysPerCentury = 36525.0;
+  constexpr double kSecondsPerDay = 86400.0;
+  constexpr double kTwoPi = 2.0 * math::pi;
+
+  // IAU 1982 GMST coefficients
+  constexpr double A = 24110.54841 - kSecondsPerDay / 2.0;
+  constexpr double B = 8640184.812866;
+  constexpr double C = 0.093104;
+  constexpr double D = -6.2e-6;
+
+  // Two-part Julian Date:
+  //   dj1 = JD at 0h
+  //   dj2 = fractional day
+  const double dj1 = julian_date_0h;
+  const double dj2 = seconds_from_0h / kSecondsPerDay;
+
+  // Same ordering strategy as SOFA/ERFA.
+  // Keep the small term separate from the large JD.
+  double d1;
+  double d2;
+
+  if (dj1 < dj2) {
+    d1 = dj1;
+    d2 = dj2;
+  } else {
+    d1 = dj2;
+    d2 = dj1;
+  }
+
+  // Julian centuries since J2000.
+  // Avoid forming dj1 + dj2 first.
+  const double t =
+      (d1 + (d2 - kJ2000)) / kDaysPerCentury;
+
+  // Fractional part of UT1 in seconds.
+  const double fractional_seconds =
+      kSecondsPerDay *
+      (std::fmod(d1, 1.0) + std::fmod(d2, 1.0));
+
+  // GMST in seconds.
+  // Note that the huge 876600 * 3600 term is no longer present.
+  double gmst_seconds =
+      A + (B + (C + D * t) * t) * t
+      + fractional_seconds;
+
+  // Normalize BEFORE converting to radians.
+  gmst_seconds = std::fmod(gmst_seconds, kSecondsPerDay);
+  if (gmst_seconds < 0.0) {
+    gmst_seconds += kSecondsPerDay;
+  }
+
+  return gmst_seconds * kTwoPi / kSecondsPerDay;
 }
+math::Matrix<3, 3> EarthRotation::CalcDcmJ2000ToEcefAtTime(const double julian_date_0h, const double seconds_from_0h) {
+  double normalized_julian_date_0h = julian_date_0h;
+  double normalized_seconds_from_0h = seconds_from_0h;
+  const double elapsed_days = std::floor(normalized_seconds_from_0h / seconds_per_day);
+  normalized_julian_date_0h += elapsed_days;
+  normalized_seconds_from_0h -= elapsed_days * seconds_per_day;
 
-void EarthRotation::Update(const SimulationTime& simulation_time) {
-  double julian_date_0h;
-  jday(simulation_time.GetStartYear(), simulation_time.GetStartMonth(), simulation_time.GetStartDay(), 0, 0, 0.0, julian_date_0h);
-
-  double seconds_from_0h = simulation_time.GetSecondsFrom0h_s();
-  const double elapsed_days = std::floor(seconds_from_0h / seconds_per_day);
-  julian_date_0h += elapsed_days;
-  seconds_from_0h -= elapsed_days * seconds_per_day;
-
-  double gmst_rad = CalcGmstFromSplitJulianDate_rad(julian_date_0h, seconds_from_0h);
+  const double gmst_rad = CalcGmstFromSplitJulianDate_rad(normalized_julian_date_0h, normalized_seconds_from_0h);
 
   if (rotation_mode_ == EarthRotationMode::kFull) {
     // Compute nth power of julian century for terrestrial time.
     // The actual unit of tTT_century is [century^(i+1)], i is the index of the array
     double terrestrial_time_julian_century[4];
     terrestrial_time_julian_century[0] =
-        (julian_date_0h - kJulianDateJ2000_) / kDayJulianCentury_ + (seconds_from_0h + kDtUt1Utc_) / (seconds_per_day * kDayJulianCentury_);
+        (normalized_julian_date_0h - kJulianDateJ2000_) / kDayJulianCentury_ +
+        (normalized_seconds_from_0h + kDtUt1Utc_) / (seconds_per_day * kDayJulianCentury_);
     for (int i = 0; i < 3; i++) {
       terrestrial_time_julian_century[i + 1] = terrestrial_time_julian_century[i] * terrestrial_time_julian_century[0];
     }
@@ -161,15 +212,30 @@ void EarthRotation::Update(const SimulationTime& simulation_time) {
     dcm_polar_motion = PolarMotion(x_p, y_p);
 
     // Total orientation
-    dcm_j2000_to_ecef_ = dcm_polar_motion * dcm_rotation * dcm_nutation * dcm_precession;
+    return dcm_polar_motion * dcm_rotation * dcm_nutation * dcm_precession;
   } else if (rotation_mode_ == EarthRotationMode::kSimple) {
     // In this case, only Axial Rotation is executed, with its argument replaced from G'A'ST to G'M'ST
     // FIXME: Not suitable when the center body is not the earth
-    dcm_j2000_to_ecef_ = AxialRotation(gmst_rad);
+    return AxialRotation(gmst_rad);
   } else {
     // Leave the DCM as unit Matrix(diag{1,1,1})
-    return;
+    return math::MakeIdentityMatrix<3>();
   }
+}
+
+void EarthRotation::Update(const SimulationTime& simulation_time) {
+  double julian_date_0h;
+  jday(simulation_time.GetStartYear(), simulation_time.GetStartMonth(), simulation_time.GetStartDay(), 0, 0, 0.0, julian_date_0h);
+
+  const double seconds_from_0h = simulation_time.GetSecondsFrom0h_s();
+  constexpr double kDerivativeStep_s = 0.5;
+
+  const math::Matrix<3, 3> dcm_plus = CalcDcmJ2000ToEcefAtTime(julian_date_0h, seconds_from_0h + kDerivativeStep_s);
+  const math::Matrix<3, 3> dcm_minus = CalcDcmJ2000ToEcefAtTime(julian_date_0h, seconds_from_0h - kDerivativeStep_s);
+  const math::Matrix<3, 3> dcm_current = CalcDcmJ2000ToEcefAtTime(julian_date_0h, seconds_from_0h);
+  dcm_j2000_to_ecef_ = dcm_current;
+  dcm_dot_j2000_to_ecef_ = (1.0 / (2.0 * kDerivativeStep_s)) * (dcm_plus - dcm_minus);
+  dcm_ddot_j2000_to_ecef_ = (1.0 / (kDerivativeStep_s * kDerivativeStep_s)) * (dcm_plus - 2.0 * dcm_current + dcm_minus);
 }
 
 math::Matrix<3, 3> EarthRotation::AxialRotation(const double gast_rad) { return math::MakeRotationMatrixZ(gast_rad); }

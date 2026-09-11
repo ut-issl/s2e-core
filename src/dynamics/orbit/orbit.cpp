@@ -31,15 +31,10 @@ math::Quaternion Orbit::CalcQuaternion_i2lvlh() const {
 }
 
 void Orbit::TransformEciToEcef(void) {
-  math::Matrix<3, 3> dcm_i_to_xcxf = celestial_information_->GetEarthRotation().GetDcmJ2000ToEcef();
-  spacecraft_position_ecef_m_ = dcm_i_to_xcxf * spacecraft_position_i_m_;
-
-  // convert velocity vector in ECI to the vector in ECEF
-  math::Vector<3> earth_angular_velocity_i_rad_s{0.0};
-  earth_angular_velocity_i_rad_s[2] = environment::earth_mean_angular_velocity_rad_s;
-  math::Vector<3> we_cross_r = OuterProduct(earth_angular_velocity_i_rad_s, spacecraft_position_i_m_);
-  math::Vector<3> velocity_we_cross_r = spacecraft_velocity_i_m_s_ - we_cross_r;
-  spacecraft_velocity_ecef_m_s_ = dcm_i_to_xcxf * velocity_we_cross_r;
+  const math::Matrix<3, 3> dcm_i_to_ecef = celestial_information_->GetEarthRotation().GetDcmJ2000ToEcef();
+  const math::Matrix<3, 3> dcm_dot_i_to_ecef = celestial_information_->GetEarthRotation().GetDcmJ2000ToEcefDerivative();
+  spacecraft_position_ecef_m_ = dcm_i_to_ecef * spacecraft_position_i_m_;
+  spacecraft_velocity_ecef_m_s_ = dcm_i_to_ecef * spacecraft_velocity_i_m_s_ + dcm_dot_i_to_ecef * spacecraft_position_i_m_;
 }
 
 void Orbit::TransformEcefToGeodetic(void) {
