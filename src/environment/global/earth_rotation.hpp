@@ -80,11 +80,6 @@ class EarthRotation {
   double c_theta_rad_[3];      //!< Coefficients to compute precession angle (theta)
   double c_z_rad_[3];          //!< Coefficients to compute precession angle (z)
 
-  // TODO: Move to general constant values
-  const double kDtUt1Utc_ = 32.184;                     //!< Time difference b/w UT1 and UTC [sec]
-  const double kJulianDateJ2000_ = 2451545.0;           //!< Julian date of J2000 [day]
-  const double kDayJulianCentury_ = 36525.0;            //!< Conversion constant from Julian century to day [day/century]
-
   /**
    * @fn InitializeParameters
    * @brief Initialize parameters
