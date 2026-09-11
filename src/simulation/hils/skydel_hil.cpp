@@ -10,7 +10,6 @@
 #include <cmath>
 #include <cstdint>
 #include <exception>
-#include <environment/global/physical_constants.hpp>
 #include <environment/global/simulation_time.hpp>
 #include <iostream>
 #include <math_physics/math/matrix_vector.hpp>
@@ -32,12 +31,6 @@
 #include <ecef.h>
 #include <hil_helper.h>
 #include <remote_simulator.h>
-
-namespace {
-
-constexpr int kSkydelStreamingBufferSizeMs = 200;
-
-}  // namespace
 
 namespace s2e::simulation {
 
@@ -137,13 +130,11 @@ void SkydelHil::LoadConfiguration(const std::string& base_ini_path, const unsign
   output_period_ms_ = hil_ini.ReadInt("SKYDEL_HIL", "output_period_ms");
   sync_duration_ms_ = hil_ini.ReadInt("SKYDEL_HIL", "sync_duration_ms");
   hil_tjoin_ms_ = hil_ini.ReadInt("SKYDEL_HIL", "hil_tjoin_ms");
-  engine_latency_ms_ = hil_ini.ReadInt("SKYDEL_HIL", "engine_latency_ms");
   sync_port_ = hil_ini.ReadInt("SKYDEL_HIL", "sync_port");
   warning_check_period_ms_ = hil_ini.ReadInt("SKYDEL_HIL", "warning_check_period_ms");
   const int number_of_vehicles = hil_ini.ReadInt("SKYDEL_HIL", "number_of_vehicles");
 
-  if (output_period_ms_ <= 0 || sync_duration_ms_ <= 0 || hil_tjoin_ms_ <= 0 || engine_latency_ms_ <= 0 || sync_port_ <= 0 ||
-      warning_check_period_ms_ <= 0) {
+  if (output_period_ms_ <= 0 || sync_duration_ms_ <= 0 || hil_tjoin_ms_ <= 0 || sync_port_ <= 0 || warning_check_period_ms_ <= 0) {
     throw std::runtime_error("Skydel HIL timing and synchronization parameters must be positive");
   }
   if (raw_rate_hz_ != 10 && raw_rate_hz_ != 100 && raw_rate_hz_ != 1000) {
@@ -221,17 +212,6 @@ void SkydelHil::SetupSimulators(const environment::SimulationTime& simulation_ti
     simulator->setVerbose(false);
     if (!simulator->connect(skydel_host_, static_cast<int>(instance_ids_[index]))) {
       throw std::runtime_error("Failed to connect to Skydel instance " + std::to_string(instance_ids_[index]));
-    }
-
-    if (Sdx::Cmd::GetEngineLatencyResult::dynamicCast(simulator->call(Sdx::Cmd::GetEngineLatency::create()))->latency() !=
-        engine_latency_ms_) {
-      throw std::runtime_error("Unexpected Skydel engine latency");
-    }
-
-    // Check the streaming buffer preference, do not change it from its default value
-    if (Sdx::Cmd::GetStreamingBufferResult::dynamicCast(simulator->call(Sdx::Cmd::GetStreamingBuffer::create()))->size() !=
-        kSkydelStreamingBufferSizeMs) {
-      throw std::runtime_error("Unexpected Skydel streaming buffer size");
     }
 
     simulator->call(Sdx::Cmd::Open::create(config_paths_[index], true));
@@ -373,17 +353,16 @@ math::Vector<3> SkydelHil::CalcTotalAccelerationEcef_m_s2(const spacecraft::Spac
   const double mu_m3_s2 = celestial_information.GetCenterBodyGravityConstant_m3_s2();
   acceleration_i_m_s2 -= mu_m3_s2 / (radius_m * radius_m * radius_m) * position_i_m;
 
-  // Convert the acceleration from inertial frame to ECEF frame, and add the Coriolis and centrifugal accelerations
-  const auto dcm_i_to_ecef = celestial_information.GetEarthRotation().GetDcmJ2000ToEcef();
-  const math::Vector<3> position_ecef_m = orbit.GetPosition_ecef_m();
-  const math::Vector<3> velocity_ecef_m_s = orbit.GetVelocity_ecef_m_s();
-
-  math::Vector<3> omega_ecef_rad_s(0.0);
-  omega_ecef_rad_s[2] = environment::earth_mean_angular_velocity_rad_s;
+  // Convert the acceleration from the inertial frame to the ECEF frame.
+  const auto& earth_rotation = celestial_information.GetEarthRotation();
+  const auto dcm_i_to_ecef = earth_rotation.GetDcmJ2000ToEcef();
+  const auto dcm_dot_i_to_ecef = earth_rotation.GetDcmJ2000ToEcefDerivative();
+  const auto dcm_ddot_i_to_ecef = earth_rotation.GetDcmJ2000ToEcefSecondDerivative();
+  const math::Vector<3> velocity_i_m_s = orbit.GetVelocity_i_m_s();
 
   math::Vector<3> acceleration_ecef_m_s2 = dcm_i_to_ecef * acceleration_i_m_s2;
-  acceleration_ecef_m_s2 -= 2.0 * math::OuterProduct(omega_ecef_rad_s, velocity_ecef_m_s);
-  acceleration_ecef_m_s2 -= math::OuterProduct(omega_ecef_rad_s, math::OuterProduct(omega_ecef_rad_s, position_ecef_m));
+  acceleration_ecef_m_s2 += 2.0 * (dcm_dot_i_to_ecef * velocity_i_m_s);
+  acceleration_ecef_m_s2 += dcm_ddot_i_to_ecef * position_i_m;
   return acceleration_ecef_m_s2;
 }
 

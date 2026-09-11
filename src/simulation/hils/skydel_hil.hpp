@@ -79,7 +79,6 @@ class SkydelHil {
   int output_period_ms_{};
   int sync_duration_ms_{};
   int hil_tjoin_ms_{};
-  int engine_latency_ms_{};
   int sync_port_{};
   int warning_check_period_ms_ = 0;
   double simulation_start_timestamp_ms_ = 0.0;
