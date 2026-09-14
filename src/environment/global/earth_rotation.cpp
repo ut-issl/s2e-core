@@ -3,7 +3,9 @@
  * @brief Class to calculate the earth rotation
  * @note Refs: 福島,"天体の回転運動理論入門講義ノート", 2007 (in Japanese),
  *             長沢,"天体の位置計算(増補版)", 2001 (in Japanese),
- *             IERS Conventions 2003
+ *             IERS Conventions 2003,
+ *             IAU SOFA Library Issue 2023-10-11:
+ *             https://www.iausofa.org/2023-10-11c
  */
 
 #include "earth_rotation.hpp"
@@ -115,11 +117,42 @@ void EarthRotation::InitializeParameters() {
 
 // Same GMST polynomial as Vallado's gstime(), with Julian centuries evaluated from split time to avoid rounding a full Julian Date.
 double EarthRotation::CalcGmstFromSplitJulianDate_rad(const double julian_date_0h, const double seconds_from_0h) {
-  const double tut1 = (julian_date_0h - 2451545.0) / 36525.0 + seconds_from_0h / (seconds_per_day * 36525.0);
-  double temp = -6.2e-6 * tut1 * tut1 * tut1 + 0.093104 * tut1 * tut1 + (876600.0 * 3600 + 8640184.812866) * tut1 + 67310.54841;
-  temp = std::fmod(temp * math::deg_to_rad / 240.0, 2.0 * math::pi);
-  if (temp < 0.0) temp += 2.0 * math::pi;
-  return temp;
+  // IAU 1982 GMST coefficients
+  const double A = 24110.54841 - seconds_per_day / 2.0;
+  const double B = 8640184.812866;
+  const double C = 0.093104;
+  const double D = -6.2e-6;
+
+  // Two-part Julian Date
+  const double dj1 = julian_date_0h;
+  const double dj2 = seconds_from_0h / seconds_per_day;
+
+  // Julian centuries since J2000.
+  double d1;
+  double d2;
+
+  if (dj1 < dj2) {
+    d1 = dj1;
+    d2 = dj2;
+  } else {
+    d1 = dj2;
+    d2 = dj1;
+  }
+
+  const double t = (d1 + (d2 - julian_date_j2000)) / days_per_julian_century;
+
+  // Fractional part of JD(UT1) in seconds.
+  const double fractional_seconds = seconds_per_day * (std::fmod(d1, 1.0) + std::fmod(d2, 1.0));
+
+  // GMST in seconds.
+  double gmst_seconds = A + (B + (C + D * t) * t) * t + fractional_seconds;
+
+  gmst_seconds = std::fmod(gmst_seconds, seconds_per_day);
+  if (gmst_seconds < 0.0) {
+    gmst_seconds += seconds_per_day;
+  }
+
+  return gmst_seconds * 2.0 * math::pi / seconds_per_day;
 }
 
 void EarthRotation::Update(const SimulationTime& simulation_time) {
@@ -137,8 +170,8 @@ void EarthRotation::Update(const SimulationTime& simulation_time) {
     // Compute nth power of julian century for terrestrial time.
     // The actual unit of tTT_century is [century^(i+1)], i is the index of the array
     double terrestrial_time_julian_century[4];
-    terrestrial_time_julian_century[0] =
-        (julian_date_0h - kJulianDateJ2000_) / kDayJulianCentury_ + (seconds_from_0h + kDtUt1Utc_) / (seconds_per_day * kDayJulianCentury_);
+    terrestrial_time_julian_century[0] = (julian_date_0h - julian_date_j2000) / days_per_julian_century +
+                                         (seconds_from_0h + dt_ut1_utc_s) / (seconds_per_day * days_per_julian_century);
     for (int i = 0; i < 3; i++) {
       terrestrial_time_julian_century[i + 1] = terrestrial_time_julian_century[i] * terrestrial_time_julian_century[0];
     }
