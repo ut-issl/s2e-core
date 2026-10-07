@@ -9,6 +9,10 @@
 #ifndef S2E_ENVIRONMENT_GLOBAL_EARTH_ROTATION_HPP_
 #define S2E_ENVIRONMENT_GLOBAL_EARTH_ROTATION_HPP_
 
+#include <memory>
+#include <string>
+#include <vector>
+
 #include "library/math/matrix.hpp"
 
 /**
@@ -37,16 +41,21 @@ class EarthRotation {
   /**
    * @fn Update
    * @brief Update rotation
-   * @param [in] julian_date: Julian date
+   * @param [in] julian_date: UTC Julian date
    */
   void Update(const double julian_date);
   /**
    * @fn UpdateWithElapsedTime
    * @brief Update rotation with a split epoch to reduce precision loss at short time steps
-   * @param [in] start_julian_date: Simulation start Julian date
+   * @param [in] start_julian_date: Simulation start UTC Julian date
    * @param [in] elapsed_time_s: Elapsed time from the start epoch [sec]
    */
   void UpdateWithElapsedTime(const double start_julian_date, const double elapsed_time_s);
+
+  /** Load daily DUT1 from finals2000A.all once. Missing or malformed data is an error. */
+  void LoadEarthOrientation(const std::string& path);
+  /** Interpolate UT1 - UTC [sec] at a UTC Modified Julian Date; reject uncovered epochs. */
+  double GetUt1MinusUtc(const double mjd_utc) const;
 
   /**
    * @fn GetDcmJ2000ToEcef
@@ -61,6 +70,12 @@ class EarthRotation {
   inline const libra::Matrix<3, 3> GetDcmTemeToEcef() const { return dcm_teme_to_ecef_; };
 
  private:
+  struct EarthOrientation {
+    double mjd_utc;  //!< UTC Modified Julian Date
+    double dut1_s;   //!< UT1 - UTC [sec]
+  };
+  // CelestialInformation returns EarthRotation by value; copies share immutable data.
+  std::shared_ptr<const std::vector<EarthOrientation>> earth_orientation_;
   double d_psi_rad_;                       //!< Nutation in obliquity [rad]
   double d_epsilon_rad_;                   //!< Nutation in longitude [rad]
   double epsilon_rad_;                     //!< Mean obliquity of the ecliptic [rad]
@@ -84,7 +99,6 @@ class EarthRotation {
   double c_z_rad_[3];          //!< Coefficients to compute precession angle (z)
 
   // TODO: Move to general constant values
-  const double kDtUt1Utc_ = 32.184;                     //!< Time difference b/w UT1 and UTC [sec]
   const double kSec2Day_ = 1.0 / (24.0 * 60.0 * 60.0);  //!< Conversion constant from sec to day
   const double kJulianDateJ2000_ = 2451545.0;           //!< Julian date of J2000 [day]
   const double kDayJulianCentury_ = 36525.0;            //!< Conversion constant from Julian century to day [day/century]

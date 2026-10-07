@@ -65,6 +65,8 @@ CelestialInformation::CelestialInformation(const std::string inertial_frame_name
 
   // Initialize rotation
   earth_rotation_ = new EarthRotation(ConvertEarthRotationMode(GetRotationMode("EARTH")));
+  // Use the versioned EOP snapshot shipped with core; no runtime download.
+  earth_rotation_->LoadEarthOrientation(std::string(CORE_DIR_FROM_EXE) + "/data/environment/finals2000A.all");
   moon_rotation_ = new MoonRotation(*this, ConvertMoonRotationMode(GetRotationMode("MOON")));
 }
 

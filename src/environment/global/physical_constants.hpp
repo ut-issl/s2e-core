@@ -26,6 +26,14 @@ DEFINE_PHYSICAL_CONSTANT(absolute_zero_degC, -273.15L)                       //!
 DEFINE_PHYSICAL_CONSTANT(solar_constant_W_m2, 1.366e3L)                      //!< Solar constant [W/m2]
 }  // namespace physics
 
+inline namespace time_scales {
+DEFINE_PHYSICAL_CONSTANT(tai_minus_gps_s, 19.0L)       //!< Fixed TAI - GPS offset [sec]
+DEFINE_PHYSICAL_CONSTANT(tt_minus_tai_s, 32.184L)     //!< Fixed TT - TAI offset [sec]
+// Date-dependent: valid from 2017-01-01 until the next leap second.
+// Shared by GPS/UTC conversion and Earth rotation; not a universal constant.
+DEFINE_PHYSICAL_CONSTANT(gps_minus_utc_s, 18.0L)      //!< GPS - UTC for the supported simulation dates [sec]
+}  // namespace time_scales
+
 inline namespace astronomy {
 // Ref: https://iau-a3.gitlab.io/NSFA/
 DEFINE_PHYSICAL_CONSTANT(astronomical_unit_m, 1.49597870700e11L)               //!< Fixed value of the Astronomical unit [m]

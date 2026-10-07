@@ -5,9 +5,11 @@
 
 #include "gps_time.hpp"
 
+#include "environment/global/physical_constants.hpp"
+
 const DateTime GpsTime::kEpochOfGpsTimeInDateTime_ = DateTime("1980/1/6 00:00:00.0");
 const EpochTime GpsTime::kEpochOfGpsTimeInEpochTime_ = EpochTime(kEpochOfGpsTimeInDateTime_);
-const EpochTime GpsTime::kLeapSecondAheadFromUtc_ = EpochTime(18, 0);  //!< Leap second ahead from UTC @ May 2023
+const EpochTime GpsTime::kLeapSecondAheadFromUtc_ = EpochTime(static_cast<uint64_t>(environment::gps_minus_utc_s), 0);
 
 void GpsTime::CalcGpsWeekTime() {
   EpochTime time_diff = epoch_time_ - kEpochOfGpsTimeInEpochTime_;

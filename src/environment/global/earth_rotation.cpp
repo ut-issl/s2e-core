@@ -8,7 +8,13 @@
 
 #include "earth_rotation.hpp"
 
+#include "physical_constants.hpp"
+
 #include <cmath>
+#include <algorithm>
+#include <cmath>
+#include <fstream>
+#include <stdexcept>
 #include <iostream>
 #include <sstream>
 
@@ -127,57 +133,58 @@ double CalcGreenwichMeanSiderealTimeRad(const long double julian_date_ut1) {
 
 }  // namespace
 
-void EarthRotation::Update(const double julian_date) {
-  double gmst_rad = gstime(julian_date);  // It is a bit different with 長沢(Nagasawa)'s algorithm. TODO: Check the correctness
-
-  if (rotation_mode_ == EarthRotationMode::kFull) {
-    // Compute Julian date for terrestrial time
-    double terrestrial_time_julian_day =
-        julian_date + kDtUt1Utc_ * kSec2Day_;  // TODO: Check the correctness. Problem is that S2E doesn't have Gregorian calendar.
-
-    // Compute nth power of julian century for terrestrial time.
-    // The actual unit of tTT_century is [century^(i+1)], i is the index of the array
-    double terrestrial_time_julian_century[4];
-    terrestrial_time_julian_century[0] = (terrestrial_time_julian_day - kJulianDateJ2000_) / kDayJulianCentury_;
-    for (int i = 0; i < 3; i++) {
-      terrestrial_time_julian_century[i + 1] = terrestrial_time_julian_century[i] * terrestrial_time_julian_century[0];
-    }
-
-    libra::Matrix<3, 3> dcm_precession;
-    libra::Matrix<3, 3> dcm_nutation;
-    libra::Matrix<3, 3> dcm_rotation;
-    libra::Matrix<3, 3> dcm_polar_motion;
-    // Nutation + Precession
-    dcm_precession = Precession(terrestrial_time_julian_century);
-    dcm_nutation = Nutation(terrestrial_time_julian_century);  // epsilon_rad_, d_epsilon_rad_, d_psi_rad_ are updated in this procedure
-
-    // Axial Rotation
-    double equinox_rad = d_psi_rad_ * cos(epsilon_rad_ + d_epsilon_rad_);  // Equation of equinoxes [rad]
-    double gast_rad = gmst_rad + equinox_rad;                              // Greenwich 'Apparent' Sidereal Time [rad]
-    dcm_rotation = AxialRotation(gast_rad);
-    // Polar motion (is not considered so far, even without polar motion, the result agrees well with the matlab reference)
-    double x_p = 0.0;
-    double y_p = 0.0;
-    dcm_polar_motion = PolarMotion(x_p, y_p);
-
-    // Total orientation
-    dcm_j2000_to_ecef_ = dcm_polar_motion * dcm_rotation * dcm_nutation * dcm_precession;
-  } else if (rotation_mode_ == EarthRotationMode::kSimple) {
-    // In this case, only Axial Rotation is executed, with its argument replaced from G'A'ST to G'M'ST
-    // FIXME: Not suitable when the center body is not the earth
-    dcm_j2000_to_ecef_ = AxialRotation(gmst_rad);
-  } else {
-    // Leave the DCM as unit Matrix(diag{1,1,1})
-    return;
+void EarthRotation::LoadEarthOrientation(const std::string& path) {
+  std::ifstream file(path);
+  if (!file) throw std::runtime_error("Cannot open Earth orientation data: " + path);
+  auto records = std::make_shared<std::vector<EarthOrientation>>();
+  std::string line;
+  while (std::getline(file, line)) {
+    // IERS finals2000A fixed columns: MJD 8-15, UT1 flag 58, DUT1 59-68 (1-based).
+    // The file may end with dates whose EOP values have not yet been published.
+    if (line.size() < 68 || (line[57] != 'I' && line[57] != 'P')) continue;
+    const double mjd = std::stod(line.substr(7, 8));
+    const double dut1 = std::stod(line.substr(58, 10));
+    if (!std::isfinite(mjd) || !std::isfinite(dut1) ||
+        (!records->empty() && mjd - records->back().mjd_utc != 1.0))
+      throw std::runtime_error("Invalid daily Earth orientation data: " + path);
+    records->push_back({mjd, dut1});
   }
+  if (records->size() < 2) throw std::runtime_error("No daily DUT1 records: " + path);
+  earth_orientation_ = records;
+}
+
+double EarthRotation::GetUt1MinusUtc(const double mjd_utc) const {
+  if (!earth_orientation_) throw std::runtime_error("Earth orientation data is not loaded");
+  const auto& records = *earth_orientation_;
+  if (!std::isfinite(mjd_utc) || mjd_utc < records.front().mjd_utc || mjd_utc > records.back().mjd_utc)
+    throw std::runtime_error("UTC epoch is outside finals2000A.all coverage");
+  const auto next = std::upper_bound(records.begin(), records.end(), mjd_utc,
+      [](double mjd, const EarthOrientation& record) { return mjd < record.mjd_utc; });
+  if (next == records.end()) return records.back().dut1_s;
+  const auto& previous = *(next - 1);
+  double delta = next->dut1_s - previous.dut1_s;
+  // DUT1 jumps by a whole second at a leap second. Interpolate its continuous
+  // part within the UTC day, then adopt the new offset at the next midnight.
+  delta -= std::round(delta);
+  return previous.dut1_s + (mjd_utc - previous.mjd_utc) * delta;
+}
+
+void EarthRotation::Update(const double julian_date) {
+  UpdateWithElapsedTime(julian_date, 0.0);
 }
 
 void EarthRotation::UpdateWithElapsedTime(const double start_julian_date, const double elapsed_time_s) {
   const long double julian_date = static_cast<long double>(start_julian_date) + static_cast<long double>(elapsed_time_s) * kSec2Day_;
-  double gmst_rad = CalcGreenwichMeanSiderealTimeRad(julian_date);
+  if (rotation_mode_ == EarthRotationMode::kIdle) return;
+  const double dut1_s = GetUt1MinusUtc(static_cast<double>(julian_date - 2400000.5L));
+  // Axial rotation uses UT1; precession and nutation use TT. Keep UTC unchanged.
+  const long double julian_date_ut1 = julian_date + static_cast<long double>(dut1_s) * kSec2Day_;
+  double gmst_rad = CalcGreenwichMeanSiderealTimeRad(julian_date_ut1);
 
   if (rotation_mode_ == EarthRotationMode::kFull) {
-    const long double terrestrial_time_julian_day = julian_date + static_cast<long double>(kDtUt1Utc_) * kSec2Day_;
+    const long double tt_minus_utc_s = environment::tt_minus_tai_s_v<long double> +
+        environment::tai_minus_gps_s_v<long double> + environment::gps_minus_utc_s_v<long double>;
+    const long double terrestrial_time_julian_day = julian_date + tt_minus_utc_s * kSec2Day_;
 
     double terrestrial_time_julian_century[4];
     terrestrial_time_julian_century[0] =
