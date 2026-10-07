@@ -33,9 +33,11 @@ class CelestialInformation : public ILoggable {
    * @param [in] number_of_selected_body: Number of selected body
    * @param [in] selected_body_ids: SPICE IDs of selected bodies
    * @param [in] rotation_mode_list: Rotation mode list for planets
+   * @param [in] earth_orientation_file_path: Path to the IERS finals2000A.all file
    */
   CelestialInformation(const std::string inertial_frame_name, const std::string aberration_correction_setting, const std::string center_body_name,
-                       const unsigned int number_of_selected_body, int* selected_body_ids, const std::vector<std::string> rotation_mode_list);
+                       const unsigned int number_of_selected_body, int* selected_body_ids, const std::vector<std::string> rotation_mode_list,
+                       const std::string earth_orientation_file_path);
   /**
    * @fn CelestialInformation
    * @brief Copy constructor

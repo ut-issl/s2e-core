@@ -20,7 +20,7 @@
 
 CelestialInformation::CelestialInformation(const std::string inertial_frame_name, const std::string aberration_correction_setting,
                                            const std::string center_body_name, const unsigned int number_of_selected_body, int* selected_body_ids,
-                                           const std::vector<std::string> rotation_mode_list)
+                                           const std::vector<std::string> rotation_mode_list, const std::string earth_orientation_file_path)
     : number_of_selected_bodies_(number_of_selected_body),
       selected_body_ids_(selected_body_ids),
       inertial_frame_name_(inertial_frame_name),
@@ -66,7 +66,7 @@ CelestialInformation::CelestialInformation(const std::string inertial_frame_name
   // Initialize rotation
   earth_rotation_ = new EarthRotation(ConvertEarthRotationMode(GetRotationMode("EARTH")));
   // Use the versioned EOP snapshot shipped with core; no runtime download.
-  earth_rotation_->LoadEarthOrientation(std::string(CORE_DIR_FROM_EXE) + "/data/environment/finals2000A.all");
+  earth_rotation_->LoadEarthOrientation(earth_orientation_file_path);
   moon_rotation_ = new MoonRotation(*this, ConvertMoonRotationMode(GetRotationMode("MOON")));
 }
 
@@ -239,7 +239,9 @@ CelestialInformation* InitCelestialInformation(std::string file_name) {
   std::vector<std::string> rotation_mode_list = ini_file.ReadVectorString(section, "rotation_mode", num_of_selected_body);
 
   CelestialInformation* celestial_info;
-  celestial_info = new CelestialInformation(inertial_frame, aber_cor, center_obj, num_of_selected_body, selected_body, rotation_mode_list);
+  const std::string earth_orientation_file_path = ini_file.ReadString(section, "earth_orientation_file_path");
+  celestial_info = new CelestialInformation(inertial_frame, aber_cor, center_obj, num_of_selected_body, selected_body, rotation_mode_list,
+                                          earth_orientation_file_path);
 
   // log setting
   celestial_info->is_log_enabled_ = ini_file.ReadEnable(section, INI_LOG_LABEL);
